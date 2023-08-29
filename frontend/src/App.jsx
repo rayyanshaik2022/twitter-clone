@@ -1,6 +1,10 @@
+import Signup from "./pages/SignUp"
 
+function App(props) {
 
-function App() {
+  if (props.page == "sign-up") {
+    return <Signup />
+  }
 
   return (
     <>
