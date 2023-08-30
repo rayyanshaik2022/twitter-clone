@@ -37,7 +37,7 @@ function Signup() {
             </Center>
           </Button>
           <Text mt={-2} fontSize={"sm"} w={"300px"}>This website is a mockup of twitter and is intended to be used as a personal project</Text>
-          <Text mt={-4}>Already have an account? <Link href="/" color={"blue.400"}>Log in</Link></Text>
+          <Text mt={-4}>Already have an account? <Link href="/log-in" color={"blue.400"}>Log in</Link></Text>
         </Flex>
       </Grid>
     </>
