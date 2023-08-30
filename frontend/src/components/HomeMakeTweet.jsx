@@ -5,11 +5,10 @@ import {
   Box,
   Spacer,
   Textarea,
-  Input,
   Button,
   Icon,
 } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import autosize from "autosize";
 import { BiImage, BiSmile } from "react-icons/bi";
 

@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import HomeLeftSidebar from "../components/HomeLeftSidebar";
 import HomeRightSideBar from "../components/HomeRightSidebar";
 import HomeMakeTweet from "../components/HomeMakeTweet";
+import HomeFeed from "../components/HomeFeed";
 
 function Home() {
   const [authUser, setAuthUser] = useState(null);
@@ -45,7 +46,7 @@ function Home() {
             borderBottom={"1px solid"}
             borderBottomColor={"gray.300"}
             bg={"whiteAlpha.500"}
-            backdropFilter={"blur(2px)"}
+            backdropFilter={"blur(6px)"}
             pos={"sticky"}
             top={0}
             zIndex={2}
@@ -55,24 +56,7 @@ function Home() {
             </Heading>
           </Box>
           <HomeMakeTweet />
-          <Heading size={"4xl"}>123</Heading>
-          <Heading size={"4xl"}>123</Heading>
-          <Heading size={"4xl"}>123</Heading>
-          <Heading size={"4xl"}>123</Heading>
-          <Heading size={"4xl"}>123</Heading>
-          <Heading size={"4xl"}>123</Heading>
-          <Heading size={"4xl"}>123</Heading>
-          <Heading size={"4xl"}>123</Heading>
-          <Heading size={"4xl"}>123</Heading>
-          <Heading size={"4xl"}>123</Heading>
-          <Heading size={"4xl"}>123</Heading>
-          <Heading size={"4xl"}>123</Heading>
-          <Heading size={"4xl"}>123</Heading>
-          <Heading size={"4xl"}>123</Heading>
-          <Heading size={"4xl"}>123</Heading>
-          <Heading size={"4xl"}>123</Heading>
-          <Heading size={"4xl"}>123</Heading>
-          <Heading size={"4xl"}>123</Heading>
+          <HomeFeed />
         </Box>
         <HomeRightSideBar />
       </Grid>
