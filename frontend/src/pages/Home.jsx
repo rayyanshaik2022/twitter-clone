@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 // Import components
 import HomeLeftSidebar from "../components/HomeLeftSidebar";
 import HomeRightSideBar from "../components/HomeRightSidebar";
+import HomeMakeTweet from "../components/HomeMakeTweet";
 
 function Home() {
   const [authUser, setAuthUser] = useState(null);
@@ -43,14 +44,17 @@ function Home() {
             p={4}
             borderBottom={"1px solid"}
             borderBottomColor={"gray.300"}
-            bg={"whiteAlpha.900"}
+            bg={"whiteAlpha.500"}
+            backdropFilter={"blur(2px)"}
             pos={"sticky"}
             top={0}
+            zIndex={2}
           >
             <Heading as={"h1"} size={"md"}>
               Home
             </Heading>
           </Box>
+          <HomeMakeTweet />
           <Heading size={"4xl"}>123</Heading>
           <Heading size={"4xl"}>123</Heading>
           <Heading size={"4xl"}>123</Heading>
