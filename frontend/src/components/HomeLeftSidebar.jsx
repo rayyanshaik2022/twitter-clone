@@ -19,11 +19,13 @@ function HomeLeftSidebar() {
       flexDir={"column"}
       justifyContent={"space-between"}
       w={"240px"}
+      pt={6}
+      pb={2}
       h={"calc(100vh - 24px)"}
       ml={"auto"}
       mr={"40px"}
       pos={"sticky"}
-      pb={2}
+      top={0}
       userSelect={"none"}
     >
       <Flex flexDir={"column"} gap={12}>
