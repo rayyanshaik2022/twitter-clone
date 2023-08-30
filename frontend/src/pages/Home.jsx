@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 
 // Import components
 import HomeLeftSidebar from "../components/HomeLeftSidebar";
+import HomeRightSideBar from "../components/HomeRightSidebar";
 
 function Home() {
   const [authUser, setAuthUser] = useState(null);
@@ -27,10 +28,10 @@ function Home() {
 
   return (
     <>
-      <Grid templateColumns={"11fr 24fr 11fr"} pt={6}>
+      <Grid templateColumns={"repeat(3, 1fr)"} pt={6}>
         <HomeLeftSidebar />
         <p>2</p>
-        <p>3</p>
+        <HomeRightSideBar />
       </Grid>
     </>
   );
