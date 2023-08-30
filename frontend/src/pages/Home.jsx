@@ -15,18 +15,24 @@ function Home() {
   const [authUser, setAuthUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  //   useEffect(() => {
-  //     setLoading(true);
-  //     onAuthStateChanged(auth, async (user) => {
-  //       if (user) {
-  //         setAuthUser(user);
-  //       } else {
-  //         setAuthUser(null);
-  //       }
+  useEffect(() => {
+    setLoading(true);
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setAuthUser(user);
+      } else {
+        setAuthUser(null);
+      }
 
-  //       setLoading(false);
-  //     });
-  //   }, []);
+      console.log(user)
+
+      setLoading(false);
+    });
+  }, []);
+
+  if (loading) {
+    return <>Loading...</>;
+  }
 
   return (
     <>
