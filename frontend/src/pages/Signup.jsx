@@ -6,13 +6,43 @@ import {
   Text,
   Button,
   Center,
-  Link
+  Link,
 } from "@chakra-ui/react";
+
+import { auth, provider } from "../firebase";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 import { FaTwitter } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
 function Signup() {
+  const onClickSignUp = (e) => {
+    e.preventDefault();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...'
+
+        console.log(user)
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+
+        console.log(error)
+      });
+  };
   return (
     <>
       <Grid gridTemplateColumns={"5.8fr 4.2fr"}>
@@ -31,13 +61,28 @@ function Signup() {
             Happening Now
           </Heading>
           <Heading as={"h2"}>Join Twitter today</Heading>
-          <Button mt={6} w={"320px"} variant={"outline"} leftIcon={<FcGoogle />} borderRadius={"100px"}>
+          <Button
+            mt={6}
+            w={"320px"}
+            variant={"outline"}
+            leftIcon={<FcGoogle />}
+            borderRadius={"100px"}
+            onClick={onClickSignUp}
+          >
             <Center>
               <Text>Sign in with Google</Text>
             </Center>
           </Button>
-          <Text mt={-2} fontSize={"sm"} w={"300px"}>This website is a mockup of twitter and is intended to be used as a personal project</Text>
-          <Text mt={-4}>Already have an account? <Link href="/log-in" color={"blue.400"}>Log in</Link></Text>
+          <Text mt={-2} fontSize={"sm"} w={"300px"}>
+            This website is a mockup of twitter and is intended to be used as a
+            personal project
+          </Text>
+          <Text mt={-4}>
+            Already have an account?{" "}
+            <Link href="/log-in" color={"blue.400"}>
+              Log in
+            </Link>
+          </Text>
         </Flex>
       </Grid>
     </>
