@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
 import { collection, addDoc, getFirestore } from "firebase/firestore"; 
+import { getFunctions } from 'firebase/functions';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -24,6 +25,8 @@ const auth = getAuth(app);
 
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
+
+const functions = getFunctions(app);
 
 const useFirestore = () => {
   return db;

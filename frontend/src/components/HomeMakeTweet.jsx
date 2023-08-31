@@ -17,6 +17,7 @@ import { useUser } from "../hooks/useUser";
 
 import { collection, addDoc } from "firebase/firestore";
 import { doc, getDoc } from "firebase/firestore";
+import { getFunctions, httpsCallable } from "firebase/functions";
 
 function HomeMakeTweet() {
   const ref = useRef();
@@ -49,15 +50,14 @@ function HomeMakeTweet() {
       }
 
       const userData = docSnap.data();
-      const docRef = await addDoc(collection(db, "Posts"), {
-        authorId: authUser.uid,
-        authorUsername: userData.username,
-        comments: [],
-        datePosted: new Date(),
-        likes: 0,
-        textContent: postInput
+
+      const functions = getFunctions();
+      const newPost = httpsCallable(functions, "newPost");
+      const result = await newPost({
+        author: { id: authUser.uid, username: userData.username },
+        textContent: postInput,
       });
-      console.log("Document written with ID: ", docRef.id);
+      console.log(result)
     } catch (e) {
       console.error("Error adding document: ", e);
     }

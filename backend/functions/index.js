@@ -39,10 +39,24 @@ exports.newPost = functions.https.onCall(async (data, context) => {
       "Only an authorized user can access this"
     )
   };
-
-  return admin.firestore().collection("Posts").doc().add({
-    textContent: "a new post"
+  
+  // Create new post
+  // Add post to user
+  
+  const postRef = await admin.firestore().collection("Posts").add({
+    authorId: data.author.id,
+    authorUsername: data.author.username,
+    comments: [],
+    datePosted: new Date(),
+    likes: 0,
+    textContent: data.textContent
   })
+
+  const updateUserRef = await admin.firestore().collection("Users").doc(data.author.id).update({
+    posts: admin.firestore.FieldValue.arrayUnion(postRef.id)
+  });
+
+  return;
 })
 
 // /**
