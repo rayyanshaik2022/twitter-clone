@@ -33,31 +33,43 @@ exports.newUserSignUp = functions.auth.user().onCreate((user) => {
 });
 
 exports.newPost = functions.https.onCall(async (data, context) => {
-  if (!context.auth || context.auth.uid != data.author.id) { 
+  if (!context.auth || context.auth.uid != data.author.id) {
     throw new functions.https.HttpsError(
-      'unauthenticated',
+      "unauthenticated",
       "Only an authorized user can access this"
-    )
-  };
-  
+    );
+  }
+
   // Create new post
   // Add post to user
-  
+
+  const postDate = new Date();
   const postRef = await admin.firestore().collection("Posts").add({
     authorId: data.author.id,
     authorUsername: data.author.username,
     comments: [],
-    datePosted: new Date(),
+    datePosted: postDate,
     likes: 0,
-    textContent: data.textContent
-  })
-
-  const updateUserRef = await admin.firestore().collection("Users").doc(data.author.id).update({
-    posts: admin.firestore.FieldValue.arrayUnion(postRef.id)
+    textContent: data.textContent,
   });
 
-  return;
-})
+  const updateUserRef = await admin
+    .firestore()
+    .collection("Users")
+    .doc(data.author.id)
+    .update({
+      posts: admin.firestore.FieldValue.arrayUnion(postRef.id),
+    });
+
+  return {
+    authorId: data.author.id,
+    authorUsername: data.author.username,
+    comments: [],
+    datePosted: postDate,
+    likes: 0,
+    textContent: data.textContent,
+  };
+});
 
 // /**
 //  * Import function triggers from their respective submodules:

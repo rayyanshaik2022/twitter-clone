@@ -29,6 +29,7 @@ function HomeMakeTweet() {
   }, []);
 
   const [postInput, setPostInput] = useState("");
+  const [loading, setLoading] = useState(false);
   const db = useFirestore();
   const { authUser } = useUser();
 
@@ -42,6 +43,7 @@ function HomeMakeTweet() {
     }
 
     try {
+      setLoading(true);
       const docRefUser = doc(db, "Users", authUser.uid);
       const docSnap = await getDoc(docRefUser);
 
@@ -57,10 +59,12 @@ function HomeMakeTweet() {
         author: { id: authUser.uid, username: userData.username },
         textContent: postInput,
       });
-      
-      console.log("Post created!")
+
+      console.log("Post created!", result);
       setPostInput("");
+      setLoading(false);
     } catch (e) {
+      setLoading(false);
       console.error("Error adding document: ", e);
     }
   };
@@ -115,6 +119,7 @@ function HomeMakeTweet() {
             />
             <Spacer />
             <Button
+              isLoading={loading}
               colorScheme="blue"
               borderRadius={"100px"}
               h={"42px"}
