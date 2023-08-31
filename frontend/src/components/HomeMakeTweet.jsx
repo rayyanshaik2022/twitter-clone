@@ -7,6 +7,7 @@ import {
   Textarea,
   Button,
   Icon,
+  Image
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import autosize from "autosize";
@@ -19,7 +20,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { doc, getDoc } from "firebase/firestore";
 import { getFunctions, httpsCallable } from "firebase/functions";
 
-function HomeMakeTweet() {
+function HomeMakeTweet(props) {
   const ref = useRef();
   useEffect(() => {
     autosize(ref.current);
@@ -62,6 +63,7 @@ function HomeMakeTweet() {
 
       console.log("Post created!", result);
       setPostInput("");
+      props.setPushPost({...result.data, isNewClient: true})
       setLoading(false);
     } catch (e) {
       setLoading(false);
@@ -80,14 +82,25 @@ function HomeMakeTweet() {
       zIndex={1}
     >
       <HStack gap={2} w={"100%"}>
-        <Box
-          boxSize={"40px"}
-          minW={"40px"}
-          borderRadius={"50%"}
-          bg={"blue.200"}
-          mr={1}
-          alignSelf={"start"}
-        ></Box>
+        {authUser ? (
+          <Image
+            src={authUser.photoURL}
+            boxSize={"40px"}
+            minW={"40px"}
+            borderRadius={"50%"}
+            bg={"blue.200"}
+          />
+        ) : (
+          <Box
+            boxSize={"40px"}
+            minW={"40px"}
+            borderRadius={"50%"}
+            bg={"blue.200"}
+            mr={1}
+            alignSelf={"start"}
+          ></Box>
+        )}
+
         <VStack w={"100%"}>
           <Textarea
             value={postInput}

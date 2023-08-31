@@ -6,7 +6,7 @@ import { query, orderBy, limit } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useFirestore } from "../firebase";
 
-function HomeFeed() {
+function HomeFeed(props) {
   const [posts, setPosts] = useState([]);
   const db = useFirestore();
 
@@ -31,6 +31,18 @@ function HomeFeed() {
 
     myQuery();
   }, []);
+
+  useEffect(() => {
+
+    if (!props.pushPost) {
+      return
+    }
+    
+    setPosts([props.pushPost, ...posts])
+    props.setPushPost(null);
+  
+  }, [props.pushPost])
+  
 
   return (
     <>

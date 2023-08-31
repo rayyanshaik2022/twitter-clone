@@ -15,6 +15,7 @@ import HomeFeed from "../components/HomeFeed";
 function Home() {
 
   const { authUser } =  useUser();
+  const [pushPost, setPushPost] = useState(null);
 
   if (!authUser) {
     return <>Loading Home...</>
@@ -47,8 +48,8 @@ function Home() {
               Home
             </Heading>
           </Box>
-          <HomeMakeTweet />
-          <HomeFeed />
+          <HomeMakeTweet pushPost={pushPost} setPushPost={setPushPost} />
+          <HomeFeed pushPost={pushPost} setPushPost={setPushPost}/>
         </Box>
         <HomeRightSideBar />
       </Grid>
