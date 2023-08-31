@@ -8,9 +8,15 @@ import {
   Button,
   Icon,
 } from "@chakra-ui/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import autosize from "autosize";
 import { BiImage, BiSmile } from "react-icons/bi";
+
+import { auth, useFirestore } from "../firebase";
+import { useUser } from "../hooks/useUser";
+
+import { collection, addDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 
 function HomeMakeTweet() {
   const ref = useRef();
@@ -20,6 +26,42 @@ function HomeMakeTweet() {
       autosize.destroy(ref.current);
     };
   }, []);
+
+  const [postInput, setPostInput] = useState("");
+  const db = useFirestore();
+  const { authUser } = useUser();
+
+  const onChangePostInput = (e) => {
+    setPostInput(e.target.value);
+  };
+
+  const postTweet = async () => {
+    if (postInput.length < 2) {
+      return;
+    }
+
+    try {
+      const docRefUser = doc(db, "Users", authUser.uid);
+      const docSnap = await getDoc(docRefUser);
+
+      if (!docSnap.exists()) {
+        return;
+      }
+
+      const userData = docSnap.data();
+      const docRef = await addDoc(collection(db, "Posts"), {
+        authorId: authUser.uid,
+        authorUsername: userData.username,
+        comments: [],
+        datePosted: new Date(),
+        likes: 0,
+        textContent: postInput
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
 
   return (
     <Flex
@@ -42,6 +84,8 @@ function HomeMakeTweet() {
         ></Box>
         <VStack w={"100%"}>
           <Textarea
+            value={postInput}
+            onChange={onChangePostInput}
             placeholder="What's happening"
             size="md"
             resize={"none"}
@@ -55,8 +99,18 @@ function HomeMakeTweet() {
             maxLength={280}
           />
           <HStack w={"100%"} pl={6} gap={5}>
-            <Icon as={BiImage} boxSize={8} color={"blue.300"} _hover={{cursor: "pointer"}}/>
-            <Icon as={BiSmile} boxSize={8} color={"blue.300"} _hover={{cursor: "pointer"}}/>
+            <Icon
+              as={BiImage}
+              boxSize={8}
+              color={"blue.300"}
+              _hover={{ cursor: "pointer" }}
+            />
+            <Icon
+              as={BiSmile}
+              boxSize={8}
+              color={"blue.300"}
+              _hover={{ cursor: "pointer" }}
+            />
             <Spacer />
             <Button
               colorScheme="blue"
@@ -64,6 +118,7 @@ function HomeMakeTweet() {
               h={"42px"}
               px={6}
               fontSize={"md"}
+              onClick={postTweet}
             >
               Tweet
             </Button>
