@@ -40,23 +40,23 @@ function HomePost(props) {
               fontWeight={"300"}
               color={"gray.500"}
             >
-              @username • 25m
+              {"@" + props.authorUsername + " • " + props.datePosted.toDate()}
             </Heading>
           </HStack>
           <Text justifyContent={"start"} w={"100%"}>
-            This is an example mesage that has been posted!
+            {props.textContent}
           </Text>
           <HStack w={"90%"} justifyContent={"space-between"} alignSelf={"start"} mt={4}>
             <HStack>
               <Icon as={BiComment} boxSize={6} color={"gray.500"} />
               <Text size={"sm"} color={"gray.500"}>
-                10
+                {props.comments.length}
               </Text>
             </HStack>
             <HStack>
               <Icon as={BiHeart} boxSize={6} color={"gray.500"} />
               <Text size={"sm"} color={"gray.500"}>
-                8
+                {props.likes}
               </Text>
             </HStack>
             <Icon as={BiLinkAlt} boxSize={6} color={"gray.500"} />

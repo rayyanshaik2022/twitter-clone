@@ -13,15 +13,20 @@ function HomeFeed() {
   useEffect(() => {
     const myQuery = async () => {
       const postsRef = collection(db, "Posts");
-      const q = query(postsRef, orderBy("datePosted"), limit(20));
+      const q = query(postsRef, orderBy("datePosted", "desc"), limit(20));
 
       const querySnapshot = await getDocs(q);
+      let newPosts = [];
       querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
+        // console.log(doc.id, " => ", doc.data());
+        newPosts.push({
+          id: doc.id,
+          ...doc.data(),
+        });
       });
 
-      console.log(q);
+      setPosts(newPosts);
     };
 
     myQuery();
@@ -29,14 +34,9 @@ function HomeFeed() {
 
   return (
     <>
-      <HomePost />
-
-      <HomePost />
-      <HomePost />
-      <HomePost />
-      <HomePost />
-      <HomePost />
-      <HomePost />
+      {posts.map((post) => (
+        <HomePost key={post.id} {...post} />
+      ))}
     </>
   );
 }
