@@ -4,6 +4,7 @@ import { auth } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
 import { useState, useEffect } from "react";
+import { useUser } from "../hooks/useUser";
 
 // Import components
 import HomeLeftSidebar from "../components/HomeLeftSidebar";
@@ -12,26 +13,11 @@ import HomeMakeTweet from "../components/HomeMakeTweet";
 import HomeFeed from "../components/HomeFeed";
 
 function Home() {
-  const [authUser, setAuthUser] = useState(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    setLoading(true);
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        setAuthUser(user);
-      } else {
-        setAuthUser(null);
-      }
+  const { authUser } =  useUser();
 
-      console.log(user)
-
-      setLoading(false);
-    });
-  }, []);
-
-  if (loading) {
-    return <>Loading...</>;
+  if (!authUser) {
+    return <>Loading Home...</>
   }
 
   return (
