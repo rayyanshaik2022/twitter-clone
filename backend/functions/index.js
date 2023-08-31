@@ -33,7 +33,7 @@ exports.newUserSignUp = functions.auth.user().onCreate((user) => {
 });
 
 exports.newPost = functions.https.onCall(async (data, context) => {
-  if (!context.auth) { 
+  if (!context.auth || context.auth.uid != data.author.id) { 
     throw new functions.https.HttpsError(
       'unauthenticated',
       "Only an authorized user can access this"

@@ -57,7 +57,9 @@ function HomeMakeTweet() {
         author: { id: authUser.uid, username: userData.username },
         textContent: postInput,
       });
-      console.log(result)
+      
+      console.log("Post created!")
+      setPostInput("");
     } catch (e) {
       console.error("Error adding document: ", e);
     }
