@@ -14,8 +14,10 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 import { FaTwitter } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
+  const navigate  = useNavigate();
   const onClickSignUp = (e) => {
     e.preventDefault();
     signInWithPopup(auth, provider)
@@ -27,20 +29,10 @@ function Signup() {
         const user = result.user;
         // IdP data available using getAdditionalUserInfo(result)
         // ...'
-
-        console.log(user)
+        navigate("/home");
       })
       .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
-
-        console.log(error)
+        console.log("ERROR",error);
       });
   };
   return (

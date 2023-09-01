@@ -40,7 +40,6 @@ function Profile() {
   const { authUser } = useUser();
   let { username } = useParams();
   const [pushPost, setPushPost] = useState(null);
-
   const [user, setUser] = useState(null);
   const db = useFirestore();
 
@@ -182,16 +181,18 @@ function Profile() {
                   </HStack>
                 </HStack>
               </Flex>
-              <Button
-                pos={"absolute"}
-                top={4}
-                right={4}
-                justifySelf={"start"}
-                borderRadius={"100px"}
-                variant={"outline"}
-              >
-                Edit Profile
-              </Button>
+              {
+                ( user && user.uid == authUser.uid) ? (<Button
+                  pos={"absolute"}
+                  top={4}
+                  right={4}
+                  justifySelf={"start"}
+                  borderRadius={"100px"}
+                  variant={"outline"}
+                >
+                  Edit Profile
+                </Button>) : null
+              }
             </Box>
             {user ? (
               <Image

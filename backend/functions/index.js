@@ -22,6 +22,7 @@ exports.newUserSignUp = functions.auth.user().onCreate((user) => {
     .collection("Users")
     .doc(user.uid)
     .set({
+      uid: user.uid,
       displayName: user.displayName,
       username: generateString(5),
       joinDate: new Date(),
