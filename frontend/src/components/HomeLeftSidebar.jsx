@@ -24,9 +24,24 @@ import {
 import { CgMoreO } from "react-icons/cg";
 
 import { useUser } from "../hooks/useUser";
+import { useNavigate } from "react-router-dom";
 
 function HomeLeftSidebar() {
   const { authUser } = useUser();
+  const navigate = useNavigate();
+
+  const smoothScroll = () => {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+    navigate("/home")
+  };
+
+  const navigateProfile = () => {
+    navigate("/profile")
+  }
 
   return (
     <Flex
@@ -44,36 +59,78 @@ function HomeLeftSidebar() {
     >
       <Flex flexDir={"column"} gap={12}>
         <Icon as={FaTwitter} boxSize={10} color={"blue.400"} />
-        <Flex flexDir={"column"} gap={8} fontSize={"xl"} fontWeight={"500"}>
-          <HStack gap={4}>
+        <Flex flexDir={"column"} gap={1} fontSize={"xl"} fontWeight={"500"}>
+          <HStack
+            gap={4}
+            _hover={{ bg: "gray.50", cursor: "pointer" }}
+            p={4}
+            borderRadius={"100px"}
+            onClick={() => navigate("/home")}
+          >
             <Icon as={BiSolidHomeCircle} boxSize={7} />
             <Text>Home</Text>
           </HStack>
-          <HStack gap={4}>
+          <HStack
+            gap={4}
+            p={4}
+            borderRadius={"100px"}
+            _hover={{ bg: "gray.50", cursor: "not-allowed" }}
+          >
             <Icon as={BiHash} boxSize={7} />
             <Text>Explore</Text>
           </HStack>
-          <HStack gap={4}>
+          <HStack
+            gap={4}
+            p={4}
+            borderRadius={"100px"}
+            _hover={{ bg: "gray.50", cursor: "not-allowed" }}
+          >
             <Icon as={BiBell} boxSize={7} />
             <Text>Notifications</Text>
           </HStack>
-          <HStack gap={4}>
+          <HStack
+            gap={4}
+            p={4}
+            borderRadius={"100px"}
+            _hover={{ bg: "gray.50", cursor: "not-allowed" }}
+          >
             <Icon as={BiEnvelope} boxSize={7} />
             <Text>Messages</Text>
           </HStack>
-          <HStack gap={4}>
+          <HStack
+            gap={4}
+            p={4}
+            borderRadius={"100px"}
+            _hover={{ bg: "gray.50", cursor: "not-allowed" }}
+          >
             <Icon as={BiBookmark} boxSize={7} />
             <Text>Bookmarks</Text>
           </HStack>
-          <HStack gap={4}>
+          <HStack
+            gap={4}
+            p={4}
+            borderRadius={"100px"}
+            _hover={{ bg: "gray.50", cursor: "not-allowed" }}
+          >
             <Icon as={BiDetail} boxSize={7} />
             <Text>Lists</Text>
           </HStack>
-          <HStack gap={4}>
+          <HStack
+            gap={4}
+            p={4}
+            borderRadius={"100px"}
+            _hover={{ bg: "gray.50", cursor: "pointer" }}
+            onClick={navigateProfile}
+          >
             <Icon as={BiUser} boxSize={7} />
             <Text>Profile</Text>
           </HStack>
-          <HStack gap={4}>
+          <HStack
+            gap={4}
+            p={4}
+            borderRadius={"100px"}
+            _hover={{ bg: "gray.50", cursor: "not-allowed" }}
+          >
             <Icon as={CgMoreO} boxSize={7} />
             <Text>More</Text>
           </HStack>
@@ -83,6 +140,7 @@ function HomeLeftSidebar() {
           borderRadius={"100px"}
           h={"52px"}
           fontSize={"xl"}
+          onClick={smoothScroll}
         >
           Tweet
         </Button>
@@ -94,6 +152,7 @@ function HomeLeftSidebar() {
         borderRadius={"100px"}
         alignItems={"center"}
         _hover={{ bg: "gray.100", cursor: "pointer" }}
+        onClick={navigateProfile}
       >
         <HStack>
           {authUser ? (

@@ -29,7 +29,9 @@ exports.newUserSignUp = functions.auth.user().onCreate((user) => {
       comments: [],
       posts: [],
       location: "Earth",
-      photoURL: user.photoURL
+      photoURL: user.photoURL,
+      following: [],
+      followers: []
     });
 });
 

@@ -1,6 +1,7 @@
 import Signup from "./pages/SignUp";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
+import Profile from "./pages/Profile";
 
 function App(props) {
 
@@ -14,6 +15,10 @@ function App(props) {
 
   if (props.page == "home") {
     return <Home />;
+  }
+
+  if (props.page == "profile") {
+    return <Profile />
   }
 
   return <></>;

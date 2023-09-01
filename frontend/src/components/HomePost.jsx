@@ -6,16 +6,13 @@ import {
   Text,
   Heading,
   Icon,
-  Image
+  Image,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import {
-  BiComment,
-  BiHeart,
-  BiLinkAlt,
-} from "react-icons/bi";
+import { BiComment, BiHeart, BiLinkAlt } from "react-icons/bi";
 import { useFirestore } from "../firebase";
 import { getDoc, doc } from "firebase/firestore";
+import { color } from "framer-motion";
 
 function timeSince(date) {
   var seconds = Math.floor((new Date() - date) / 1000);
@@ -45,33 +42,29 @@ function timeSince(date) {
 }
 
 function HomePost(props) {
-
   const [user, setUser] = useState(null);
   const db = useFirestore();
 
   useEffect(() => {
-    
     const getData = async () => {
       try {
         const docRefUser = doc(db, "Users", props.authorId);
         const docSnap = await getDoc(docRefUser);
-  
+
         if (!docSnap.exists()) {
           return;
         }
-  
+
         const userData = docSnap.data();
         setUser(userData);
-
       } catch (e) {
         console.error("Error adding document: ", e);
       }
-    }
-    
-    getData();
+    };
 
-  }, [])
-  
+    getData();
+  }, []);
+
   return (
     <Flex
       w={"100%"}
@@ -83,33 +76,30 @@ function HomePost(props) {
       zIndex={1}
     >
       <HStack gap={2} w={"100%"}>
-        {
-          user ? (
-            <Image
+        {user ? (
+          <Image
             src={user.photoURL}
             boxSize={"40px"}
             minW={"40px"}
             borderRadius={"50%"}
             bg={"blue.200"}
             mr={2}
-          alignSelf={"start"}
+            alignSelf={"start"}
           />
-          ) : 
+        ) : (
           <Box
             boxSize={"40px"}
             minW={"40px"}
             borderRadius={"50%"}
             bg={"blue.200"}
             mr={2}
-          alignSelf={"start"}
+            alignSelf={"start"}
           />
-        }
+        )}
         <VStack w={"100%"}>
           <HStack justifyContent={"start"} w={"100%"}>
             <Heading as={"h3"} fontSize={"18px"}>
-              {
-                user ? user.displayName : "DISPLAY NAME"
-              }
+              {user ? user.displayName : "DISPLAY NAME"}
             </Heading>
             <Heading
               as={"h4"}
@@ -117,13 +107,13 @@ function HomePost(props) {
               fontWeight={"300"}
               color={"gray.500"}
             >
-              {
-                props.isNewClient ? (
-                  "@" + props.authorUsername + " • " + "1 second" + " ago"
-                ) : (
-                  "@" + props.authorUsername + " • " + timeSince(props.datePosted.toDate()) + " ago"
-                )
-              }
+              {props.isNewClient
+                ? "@" + props.authorUsername + " • " + "1 second" + " ago"
+                : "@" +
+                  props.authorUsername +
+                  " • " +
+                  timeSince(props.datePosted.toDate()) +
+                  " ago"}
             </Heading>
           </HStack>
           <Text justifyContent={"start"} w={"100%"}>
@@ -133,21 +123,31 @@ function HomePost(props) {
             w={"90%"}
             justifyContent={"space-between"}
             alignSelf={"start"}
-            mt={4}
+            mt={2}
+            mb={-2}
           >
-            <HStack>
-              <Icon as={BiComment} boxSize={6} color={"gray.500"} />
-              <Text size={"sm"} color={"gray.500"}>
-                {props.comments.length}
-              </Text>
+            <HStack
+              _hover={{ color: "blue.500", cursor: "pointer" }}
+              color={"gray.500"}
+              p={2}
+            >
+              <Icon as={BiComment} boxSize={6} />
+              <Text size={"sm"}>{props.comments.length}</Text>
             </HStack>
-            <HStack>
-              <Icon as={BiHeart} boxSize={6} color={"gray.500"} />
-              <Text size={"sm"} color={"gray.500"}>
-                {props.likes}
-              </Text>
+            <HStack
+              _hover={{ color: "red.500", cursor: "pointer" }}
+              color={"gray.500"}
+              p={2}
+            >
+              <Icon as={BiHeart} boxSize={6} />
+              <Text size={"sm"}>{props.likes}</Text>
             </HStack>
-            <Icon as={BiLinkAlt} boxSize={6} color={"gray.500"} />
+            <Icon
+              as={BiLinkAlt}
+              boxSize={6}
+              _hover={{ color: "green.500", cursor: "pointer" }}
+              color={"gray.500"}
+            />
           </HStack>
         </VStack>
       </HStack>

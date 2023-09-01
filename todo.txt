@@ -1,6 +1,9 @@
 TODOS
 
-1. Reorganization auth so that it is reliant on a hook, this will allow for easy authorization checking when
-trying to make firestore calls / cloud function calls
-
-2. Set up cloud functions and firestore rules
+* EDIT PROFILE : open popup that allows you to just change fields
+* Like posts
+* Comment posts
+* Dynamic urls for posts (/username/postid)
+*Sidebar have @username correct at bottom left
+*Trending and who to follow
+* Optimize feed
