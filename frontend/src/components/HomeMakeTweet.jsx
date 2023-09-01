@@ -137,7 +137,7 @@ function HomeMakeTweet(props) {
               as={BiImage}
               boxSize={8}
               color={"blue.300"}
-              _hover={{ cursor: "pointer" }}
+              _hover={{ cursor: "not-allowed" }}
             />
             <Icon
               as={BiSmile}

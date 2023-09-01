@@ -18,7 +18,7 @@ function App(props) {
   }
 
   if (props.page == "profile") {
-    return <Profile user={null}/>
+    return <Profile/>
   }
 
   return <></>;

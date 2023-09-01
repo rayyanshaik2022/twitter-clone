@@ -13,24 +13,32 @@ import {
 
 import { auth } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { getDoc, doc } from "firebase/firestore";
+import {
+  getDoc,
+  doc,
+  query,
+  getDocs,
+  where,
+  collection,
+} from "firebase/firestore";
 
 import { useState, useEffect } from "react";
 import { useUser } from "../hooks/useUser";
 import { useFirestore } from "../firebase";
+import { useParams } from "react-router-dom";
 
 // Import components
 import HomeLeftSidebar from "../components/HomeLeftSidebar";
 import HomeRightSideBar from "../components/HomeRightSidebar";
 import HomeMakeTweet from "../components/HomeMakeTweet";
 import HomeFeed from "../components/HomeFeed";
-import ProfileInfo from "../components/ProfileInfo";
 import ProfileFeed from "../components/ProfileFeed";
 
 import { BiCalendarHeart, BiLocationPlus } from "react-icons/bi";
 
-function Profile(props) {
+function Profile() {
   const { authUser } = useUser();
+  let { username } = useParams();
   const [pushPost, setPushPost] = useState(null);
 
   const [user, setUser] = useState(null);
@@ -39,6 +47,21 @@ function Profile(props) {
   useEffect(() => {
     const getData = async () => {
       try {
+        if (username != undefined) {
+          const q = query(
+            collection(db, "Users"),
+            where("username", "==", username)
+          );
+
+          const querySnapshot = await getDocs(q);
+          // Should only be 1
+          querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            setUser(doc.data());
+          });
+
+          return;
+        }
         const docRefUser = doc(db, "Users", authUser.uid);
         const docSnap = await getDoc(docRefUser);
 
@@ -88,7 +111,7 @@ function Profile(props) {
             zIndex={2}
           >
             <Heading as={"h1"} size={"md"} onClick={() => console.log(user)}>
-              {user ? user.displayName : "DISPLAY_NAME"}
+              {user ? user.displayName : "@" + username}
             </Heading>
             <Text color={"gray.500"}>
               {user ? user.posts.length + " posts" : "0 posts"}
@@ -121,27 +144,29 @@ function Profile(props) {
               >
                 <VStack alignItems={"start"} gap={0}>
                   <Heading as={"h1"} size={"md"} color={"black"}>
-                    {user ? user.displayName : "DISPLAY_NAME"}
+                    {user ? user.displayName : "@" + username}
                   </Heading>
-                  <Text>@{user ? user.username : "USERNAME"}</Text>
+                  <Text>{user ? "@" + user.username : null}</Text>
                 </VStack>
-                <HStack gap={4} mt={3}>
-                  <HStack gap={1}>
-                    <Icon as={BiLocationPlus} boxSize={5} />
-                    <Text>{user ? user.location : "Home sweet home"}</Text>
+                {user ? (
+                  <HStack gap={4} mt={3}>
+                    <HStack gap={1}>
+                      <Icon as={BiLocationPlus} boxSize={5} />
+                      <Text>{user ? user.location : "Home sweet home"}</Text>
+                    </HStack>
+                    <HStack>
+                      <Icon as={BiCalendarHeart} boxSize={5} />
+                      <Text>
+                        Joined{" "}
+                        {user
+                          ? new Date(
+                              user.joinDate.toDate().toString()
+                            ).toDateString()
+                          : "Some time ago..."}
+                      </Text>
+                    </HStack>
                   </HStack>
-                  <HStack>
-                    <Icon as={BiCalendarHeart} boxSize={5} />
-                    <Text>
-                      Joined{" "}
-                      {user
-                        ? new Date(
-                            user.joinDate.toDate().toString()
-                          ).toDateString()
-                        : "Some time ago..."}
-                    </Text>
-                  </HStack>
-                </HStack>
+                ) : null}
                 <HStack gap={5} mt={2}>
                   <HStack gap={1}>
                     <Text color={"black"} fontWeight={"600"}>
@@ -193,8 +218,6 @@ function Profile(props) {
               ></Box>
             )}
           </Flex>
-          <ProfileInfo user={user} />
-          <HomeFeed pushPost={pushPost} setPushPost={setPushPost} />
           <ProfileFeed user={user} />
         </Box>
         <HomeRightSideBar />

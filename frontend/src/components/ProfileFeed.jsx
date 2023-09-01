@@ -1,5 +1,5 @@
+import { Flex, Heading } from "@chakra-ui/react";
 import {
-  collectionGroup,
   query,
   where,
   getDocs,
@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useFirestore } from "../firebase";
 
 import HomePost from "./HomePost";
+
 
 function ProfileFeed(props) {
   const [posts, setPosts] = useState([]);
@@ -23,7 +24,7 @@ function ProfileFeed(props) {
     const myQuery = async () => {
       const q = query(
         collection(db, "Posts"),
-        where("country", "in", props.user.posts),
+        where("authorUsername", "==", props.user.username),
         limit(20)
       );
       const querySnapshot = await getDocs(q);
@@ -36,6 +37,7 @@ function ProfileFeed(props) {
           ...doc.data(),
         });
       });
+      console.log(newPosts);
       setPosts(newPosts);
     };
 
@@ -44,9 +46,20 @@ function ProfileFeed(props) {
 
   return (
     <>
-      {posts.map((post) => (
-        <HomePost key={post.id} {...post} />
-      ))}
+      {" "}
+      {props.user
+        ? posts.map((post) =>
+            post.id ? (
+              <HomePost key={post.id} {...post} />
+            ) : (
+              <HomePost key={post.newClientId} {...post} />
+            )
+          )
+        : (
+          <Flex py={12} align={"center"} justify={"center"}>
+            <Heading size={"lg"}>This account does not exist.</Heading>
+          </Flex>
+        )}
     </>
   );
 }
