@@ -14,6 +14,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "autosize": "^6.0.1",
+    "emoji-picker-react": "^4.4.12",
     "firebase": "^10.3.0",
     "firebase-admin": "^11.10.1",
     "framer-motion": "^10.16.1",

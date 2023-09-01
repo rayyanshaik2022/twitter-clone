@@ -47,7 +47,7 @@ function HomeFeed(props) {
   return (
     <>
       {posts.map((post) => (
-        <HomePost key={post.id} {...post} />
+        post.id ? <HomePost key={post.id} {...post} /> : <HomePost key={post.newClientId} {...post} />
       ))}
     </>
   );
