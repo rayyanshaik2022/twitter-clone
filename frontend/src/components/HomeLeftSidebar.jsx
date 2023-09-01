@@ -26,7 +26,7 @@ import { CgMoreO } from "react-icons/cg";
 import { useUser } from "../hooks/useUser";
 import { useNavigate } from "react-router-dom";
 
-function HomeLeftSidebar() {
+function HomeLeftSidebar(props) {
   const { authUser } = useUser();
   const navigate = useNavigate();
 
@@ -175,7 +175,7 @@ function HomeLeftSidebar() {
             <Text fontWeight={"600"}>
               {authUser ? authUser.displayName : "DISPLAY NAME"}
             </Text>
-            <Text color={"gray.500"}>@{"USERNAME"}</Text>
+            <Text color={"gray.500"}>@{props.user ? props.user.username : "USERNAME"}</Text>
           </VStack>
         </HStack>
         <Spacer />

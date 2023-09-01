@@ -1,7 +1,8 @@
 import { Grid, Flex, Text, Box, Heading } from "@chakra-ui/react";
 
-import { auth } from "../firebase";
+import { auth, useFirestore } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { getDoc, doc } from "firebase/firestore";
 
 import { useState, useEffect } from "react";
 import { useUser } from "../hooks/useUser";
@@ -13,18 +14,44 @@ import HomeMakeTweet from "../components/HomeMakeTweet";
 import HomeFeed from "../components/HomeFeed";
 
 function Home() {
-
-  const { authUser } =  useUser();
+  const { authUser } = useUser();
   const [pushPost, setPushPost] = useState(null);
+  const [user, setUser] = useState(null);
+
+  const db = useFirestore();
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const docRefUser = doc(db, "Users", authUser.uid);
+        const docSnap = await getDoc(docRefUser);
+
+        if (!docSnap.exists()) {
+          return;
+        }
+
+        const userData = docSnap.data();
+        setUser(userData);
+      } catch (e) {
+        console.log("ERROR", e);
+      }
+    };
+
+    if (!authUser) {
+      return;
+    }
+
+    getData();
+  }, [authUser]);
 
   if (!authUser) {
-    return <>Loading Home...</>
+    return <>Loading Home...</>;
   }
 
   return (
     <>
       <Grid templateColumns={"repeat(3, 1fr)"} p={0}>
-        <HomeLeftSidebar />
+        <HomeLeftSidebar user={user} />
         <Box
           w={"100%"}
           minH={"100vh"}
@@ -49,7 +76,7 @@ function Home() {
             </Heading>
           </Box>
           <HomeMakeTweet pushPost={pushPost} setPushPost={setPushPost} />
-          <HomeFeed pushPost={pushPost} setPushPost={setPushPost}/>
+          <HomeFeed pushPost={pushPost} setPushPost={setPushPost} />
         </Box>
         <HomeRightSideBar />
       </Grid>

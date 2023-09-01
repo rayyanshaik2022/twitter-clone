@@ -25,9 +25,11 @@ import HomeRightSideBar from "../components/HomeRightSidebar";
 import HomeMakeTweet from "../components/HomeMakeTweet";
 import HomeFeed from "../components/HomeFeed";
 import ProfileInfo from "../components/ProfileInfo";
+import ProfileFeed from "../components/ProfileFeed";
+
 import { BiCalendarHeart, BiLocationPlus } from "react-icons/bi";
 
-function Profile() {
+function Profile(props) {
   const { authUser } = useUser();
   const [pushPost, setPushPost] = useState(null);
 
@@ -65,7 +67,7 @@ function Profile() {
   return (
     <>
       <Grid templateColumns={"repeat(3, 1fr)"} p={0}>
-        <HomeLeftSidebar />
+        <HomeLeftSidebar user={user} />
         <Box
           w={"100%"}
           minH={"100vh"}
@@ -133,7 +135,9 @@ function Profile() {
                     <Text>
                       Joined{" "}
                       {user
-                        ? user.joinDate.toDate().toString()
+                        ? new Date(
+                            user.joinDate.toDate().toString()
+                          ).toDateString()
                         : "Some time ago..."}
                     </Text>
                   </HStack>
@@ -153,7 +157,16 @@ function Profile() {
                   </HStack>
                 </HStack>
               </Flex>
-              <Button pos={"absolute"} top={4} right={4} justifySelf={"start"} borderRadius={"100px"} variant={"outline"}>Edit Profile</Button>
+              <Button
+                pos={"absolute"}
+                top={4}
+                right={4}
+                justifySelf={"start"}
+                borderRadius={"100px"}
+                variant={"outline"}
+              >
+                Edit Profile
+              </Button>
             </Box>
             {user ? (
               <Image
@@ -182,6 +195,7 @@ function Profile() {
           </Flex>
           <ProfileInfo user={user} />
           <HomeFeed pushPost={pushPost} setPushPost={setPushPost} />
+          <ProfileFeed user={user} />
         </Box>
         <HomeRightSideBar />
       </Grid>
