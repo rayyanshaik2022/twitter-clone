@@ -66,6 +66,7 @@ exports.newPost = functions.https.onCall(async (data, context) => {
     });
 
   return {
+    id: postRef.id,
     authorId: data.author.id,
     authorUsername: data.author.username,
     comments: [],

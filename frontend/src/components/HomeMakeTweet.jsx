@@ -25,7 +25,7 @@ import EmojiPicker from "emoji-picker-react";
 
 function HomeMakeTweet(props) {
   const ref = useRef();
-  const refOutsideClick = useRef()
+  const refOutsideClick = useRef();
 
   useEffect(() => {
     autosize(ref.current);
@@ -37,7 +37,7 @@ function HomeMakeTweet(props) {
   useOutsideClick({
     ref: refOutsideClick,
     handler: () => setShowEmoji(false),
-  })
+  });
 
   const [postInput, setPostInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -50,8 +50,8 @@ function HomeMakeTweet(props) {
   };
 
   const randomNumber = (max, min) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min
-  }
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
 
   const postTweet = async () => {
     if (postInput.length < 2) {
@@ -78,7 +78,12 @@ function HomeMakeTweet(props) {
 
       console.log("Post created!", result);
       setPostInput("");
-      props.setPushPost({ ...result.data, id: result.id, isNewClient: true, newClientId: randomNumber(1, 99999) });
+      console.log(result.id);
+      props.setPushPost({
+        ...result.data,
+        id: result.data.id,
+        isNewClient: true,
+      });
       setLoading(false);
     } catch (e) {
       setLoading(false);
@@ -151,7 +156,13 @@ function HomeMakeTweet(props) {
             />
             {showEmoji ? (
               <Box pos={"absolute"} mt={"440px"} ref={refOutsideClick}>
-                <EmojiPicker width={"320px"} height={"380px"} onEmojiClick={(emoji) => {setPostInput(postInput + emoji.emoji)}}/>
+                <EmojiPicker
+                  width={"320px"}
+                  height={"380px"}
+                  onEmojiClick={(emoji) => {
+                    setPostInput(postInput + emoji.emoji);
+                  }}
+                />
               </Box>
             ) : null}
             <Spacer />
