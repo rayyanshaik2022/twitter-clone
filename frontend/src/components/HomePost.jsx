@@ -110,12 +110,27 @@ function HomePost(props) {
     });
   };
 
+  const handleClickComment = async () => {
+    navigate(`/${props.authorUsername}/status/${props.id}`);
+  };
+
   const linkCopiedToast = () => {
-    navigator.clipboard.writeText("http://localhost:5173/"+props.authorUsername+"/status/"+props.id)
+    navigator.clipboard.writeText(
+      "http://localhost:5173/" + props.authorUsername + "/status/" + props.id
+    );
     toast({
       position: "bottom-center",
       render: () => (
-        <Box color="white" w={"220px"} mb={4} py={2} px={2} bg="blue.400" borderRadius={6} textAlign={"center"}>
+        <Box
+          color="white"
+          w={"220px"}
+          mb={4}
+          py={2}
+          px={2}
+          bg="blue.400"
+          borderRadius={6}
+          textAlign={"center"}
+        >
           Link copied to clipboard!
         </Box>
       ),
@@ -132,7 +147,10 @@ function HomePost(props) {
       top={0}
       zIndex={1}
       _hover={{ bg: "gray.50", cursor: "pointer" }}
-      onClick={(e) => !e.target.closest(".no-redirect") && navigate(`/${props.authorUsername}/status/${props.id}`)}
+      onClick={(e) =>
+        !e.target.closest(".no-redirect") &&
+        navigate(`/${props.authorUsername}/status/${props.id}`)
+      }
     >
       <HStack gap={2} w={"100%"}>
         {user ? (
@@ -199,6 +217,7 @@ function HomePost(props) {
               p={2}
               userSelect={"none"}
               className="no-redirect"
+              onClick={handleClickComment}
             >
               <Icon as={BiComment} boxSize={6} className="no-redirect" />
               <Text size={"sm"}>{props.comments.length}</Text>

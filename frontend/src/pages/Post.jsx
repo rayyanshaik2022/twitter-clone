@@ -293,6 +293,9 @@ function Post() {
                 as={BiComment}
                 boxSize={6}
                 _hover={{ color: "blue.500", cursor: "pointer" }}
+                onClick={() => {
+                  document.getElementsByClassName("post-input")[0].focus()
+                }}
               />
               <Box
                 _hover={{ color: "red.500", cursor: "pointer" }}
