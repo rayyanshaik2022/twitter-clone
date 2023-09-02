@@ -76,9 +76,7 @@ function HomeMakeTweet(props) {
         textContent: postInput,
       });
 
-      console.log("Post created!", result);
       setPostInput("");
-      console.log(result.id);
       props.setPushPost({
         ...result.data,
         id: result.data.id,
@@ -137,6 +135,7 @@ function HomeMakeTweet(props) {
             variant={"none"}
             ref={ref}
             maxLength={280}
+            className={"post-input"}
           />
           <HStack w={"100%"} pl={6} gap={5}>
             <Icon

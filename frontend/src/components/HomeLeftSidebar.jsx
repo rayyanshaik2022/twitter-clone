@@ -37,6 +37,7 @@ function HomeLeftSidebar(props) {
       behavior: "smooth",
     });
     navigate("/home")
+    document.getElementsByClassName("post-input")[0].focus()
   };
 
   const navigateProfile = () => {

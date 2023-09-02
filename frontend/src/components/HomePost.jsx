@@ -16,6 +16,7 @@ import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { useFirestore } from "../firebase";
 import { getDoc, doc } from "firebase/firestore";
 import { getFunctions, httpsCallable } from "firebase/functions";
+import { transform } from "framer-motion";
 
 function timeSince(date) {
   var seconds = Math.floor((new Date() - date) / 1000);
@@ -81,7 +82,6 @@ function HomePost(props) {
     };
 
     getData();
-
   }, []);
 
   useEffect(() => {
@@ -92,10 +92,7 @@ function HomePost(props) {
     if (props.user.liked.includes(props.id)) {
       setIsLiked(true);
     }
-
-    console.log(props.user)
-  }, [props.user])
-  
+  }, [props.user]);
 
   const handleClickLikePost = async () => {
     setIsLiked(!isLiked);
@@ -120,6 +117,8 @@ function HomePost(props) {
       bg={"whiteAlpha.900"}
       top={0}
       zIndex={1}
+      _hover={{ bg: "gray.50", cursor: "pointer" }}
+      onClick={(e) => !e.target.classList.contains("no-redirect") && navigate("/sign-up")}
     >
       <HStack gap={2} w={"100%"}>
         {user ? (
@@ -131,8 +130,10 @@ function HomePost(props) {
             bg={"blue.200"}
             mr={2}
             alignSelf={"start"}
-            _hover={{ cursor: "pointer" }}
+            transition={"0.14s ease-in-out"}
+            _hover={{ cursor: "pointer", transform: "scale(1.05)"}}
             onClick={() => navigate("/profile/" + user.username)}
+            className="no-redirect"
           />
         ) : (
           <Box
@@ -142,10 +143,11 @@ function HomePost(props) {
             bg={"blue.200"}
             mr={2}
             alignSelf={"start"}
+            className="no-redirect"
           />
         )}
         <VStack w={"100%"}>
-          <HStack justifyContent={"start"} w={"100%"}>
+          <HStack justifyContent={"start"} w={"100%"} className="no-redirect">
             <Heading as={"h3"} fontSize={"18px"}>
               {user ? user.displayName : "DISPLAY NAME"}
             </Heading>
@@ -154,8 +156,9 @@ function HomePost(props) {
               size={"sm"}
               fontWeight={"300"}
               color={"gray.500"}
-              _hover={{ cursor: "pointer" }}
+              _hover={{ cursor: "pointer", textDecor: "underline" }}
               onClick={() => navigate("/profile/" + user.username)}
+              className="no-redirect"
             >
               {props.isNewClient
                 ? "@" + props.authorUsername + " • " + "1 second" + " ago"
@@ -181,6 +184,7 @@ function HomePost(props) {
               color={"gray.500"}
               p={2}
               userSelect={"none"}
+              className="no-redirect"
             >
               <Icon as={BiComment} boxSize={6} />
               <Text size={"sm"}>{props.comments.length}</Text>
@@ -191,6 +195,7 @@ function HomePost(props) {
               color={"gray.500"}
               p={2}
               userSelect={"none"}
+              className="no-redirect"
             >
               {isLiked ? (
                 <Icon
@@ -209,6 +214,7 @@ function HomePost(props) {
               boxSize={6}
               _hover={{ color: "green.500", cursor: "pointer" }}
               color={"gray.500"}
+              className="no-redirect"
             />
           </HStack>
         </VStack>

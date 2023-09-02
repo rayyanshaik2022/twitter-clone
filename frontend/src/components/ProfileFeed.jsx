@@ -37,7 +37,7 @@ function ProfileFeed(props) {
           ...doc.data(),
         });
       });
-      console.log(newPosts);
+
       setPosts(newPosts);
     };
 
