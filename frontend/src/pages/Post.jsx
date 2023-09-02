@@ -148,7 +148,7 @@ function Post() {
     const likePost = httpsCallable(functions, "likePost");
     const result = await likePost({
       post: { id: postid },
-      author: { id: post.authorId },
+      author: { id: user.uid },
     });
   };
 
@@ -218,9 +218,9 @@ function Post() {
             gap={2}
           >
             <HStack>
-              {authUser ? (
+              {author ? (
                 <Image
-                  src={authUser.photoURL}
+                  src={author.photoURL}
                   boxSize={"40px"}
                   minW={"40px"}
                   borderRadius={"50%"}

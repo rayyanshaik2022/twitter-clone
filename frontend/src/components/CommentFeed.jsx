@@ -2,15 +2,16 @@ import { useEffect, useState } from "react";
 import { useFirestore } from "../firebase";
 import { query, where, getDocs, collection, limit } from "firebase/firestore";
 
+import PostComment from "./PostComment";
+
 function CommentFeed(props) {
   const [comments, setComments] = useState([]);
   const db = useFirestore();
 
   useEffect(() => {
-
     if (!props.post) {
-        console.log(props.post)
-        return;
+      console.log(props.post);
+      return;
     }
     const myQuery = async () => {
       const q = query(
@@ -28,15 +29,19 @@ function CommentFeed(props) {
           ...doc.data(),
         });
       });
-      newComments.sort((a, b) => b.datePosted.seconds - a.datePosted.seconds)
-      console.log(newComments)
+      newComments.sort((a, b) => b.datePosted.seconds - a.datePosted.seconds);
       setComments(newComments);
     };
 
     myQuery();
   }, [props.post]);
-
-  return <></>;
+  return (
+    <>
+      {comments.map((comm) => (
+        <PostComment comment={comm} key={comm.id} />
+      ))}
+    </>
+  );
 }
 
 export default CommentFeed;
