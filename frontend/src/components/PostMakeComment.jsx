@@ -55,7 +55,6 @@ function PostMakeComment(props) {
         author: { username: props.user.username },
         post: { id: props.postId },
       });
-      console.log(result);
       props.setPushComment({
         ...result.data,
         new: true,

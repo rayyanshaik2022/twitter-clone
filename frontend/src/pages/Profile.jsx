@@ -106,7 +106,7 @@ function Profile() {
             top={0}
             zIndex={2}
           >
-            <Heading as={"h1"} size={"md"} onClick={() => console.log(user)}>
+            <Heading as={"h1"} size={"md"}>
               {user ? user.displayName : "@" + username}
             </Heading>
             <Text color={"gray.500"}>

@@ -31,7 +31,7 @@ function Home() {
         }
 
         const userData = docSnap.data();
-        setUser(userData);
+        setUser({...userData, id: docRefUser.id});
       } catch (e) {
         console.log("ERROR", e);
       }

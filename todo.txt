@@ -1,8 +1,7 @@
 TODOS
 
 * EDIT PROFILE : open popup that allows you to just change fields
-* Comment posts
-* Dynamic urls for posts (/username/postid)
+
 * Trending and who to follow
 * Optimize feed
 * hashtags & functionality
@@ -11,3 +10,5 @@ DONE
 *Sidebar have @username correct at bottom left
 * Dynamic urls for profiles
 * Like posts
+* Comment posts
+* Dynamic urls for posts (/username/postid)

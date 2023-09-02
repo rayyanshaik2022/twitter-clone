@@ -10,7 +10,6 @@ function CommentFeed(props) {
 
   useEffect(() => {
     if (!props.post) {
-      console.log(props.post);
       return;
     }
     const myQuery = async () => {

@@ -59,10 +59,10 @@ function Post() {
   const [user, setUser] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState(0);
-  const [pushComment, setPushComment] = useState(null)
+  const [pushComment, setPushComment] = useState(null);
   const db = useFirestore();
   const toast = useToast();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getData = async () => {
@@ -185,7 +185,7 @@ function Post() {
     <>
       <Grid templateColumns={"repeat(3, 1fr)"} p={0}>
         {/* TODO Re add prop user={user} */}
-        <HomeLeftSidebar />
+        <HomeLeftSidebar user={user} />
         <Box
           w={"100%"}
           minH={"100vh"}
@@ -294,7 +294,7 @@ function Post() {
                 boxSize={6}
                 _hover={{ color: "blue.500", cursor: "pointer" }}
                 onClick={() => {
-                  document.getElementsByClassName("post-input")[0].focus()
+                  document.getElementsByClassName("post-input")[0].focus();
                 }}
               />
               <Box
@@ -323,8 +323,17 @@ function Post() {
             </HStack>
           </Flex>
           {/* <ProfileFeed user={user} /> */}
-          <PostMakeComment user={user} postId={postid} pushComment={pushComment} setPushComment={setPushComment}/>
-          <CommentFeed post={post} pushComment={pushComment} setPushComment={setPushComment}/>
+          <PostMakeComment
+            user={user}
+            postId={postid}
+            pushComment={pushComment}
+            setPushComment={setPushComment}
+          />
+          <CommentFeed
+            post={post}
+            pushComment={pushComment}
+            setPushComment={setPushComment}
+          />
         </Box>
         <HomeRightSideBar />
       </Grid>
