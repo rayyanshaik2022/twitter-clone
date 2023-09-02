@@ -118,7 +118,9 @@ function HomePost(props) {
       top={0}
       zIndex={1}
       _hover={{ bg: "gray.50", cursor: "pointer" }}
-      onClick={(e) => !e.target.classList.contains("no-redirect") && navigate("/sign-up")}
+      onClick={(e) =>
+        !e.target.closest(".no-redirect") && navigate("/sign-up")
+      }
     >
       <HStack gap={2} w={"100%"}>
         {user ? (
@@ -131,7 +133,7 @@ function HomePost(props) {
             mr={2}
             alignSelf={"start"}
             transition={"0.14s ease-in-out"}
-            _hover={{ cursor: "pointer", transform: "scale(1.05)"}}
+            _hover={{ cursor: "pointer", transform: "scale(1.05)" }}
             onClick={() => navigate("/profile/" + user.username)}
             className="no-redirect"
           />
@@ -186,7 +188,7 @@ function HomePost(props) {
               userSelect={"none"}
               className="no-redirect"
             >
-              <Icon as={BiComment} boxSize={6} />
+              <Icon as={BiComment} boxSize={6} className="no-redirect" />
               <Text size={"sm"}>{props.comments.length}</Text>
             </HStack>
             <HStack
@@ -200,21 +202,21 @@ function HomePost(props) {
               {isLiked ? (
                 <Icon
                   as={AiFillHeart}
+                  className="no-redirect"
                   boxSize={6}
                   color={"red.500"}
                   animation={`${likeAnimation} 0.4s ease-in-out`}
                 />
               ) : (
-                <Icon as={AiOutlineHeart} boxSize={6} />
+                <Icon as={AiOutlineHeart} boxSize={6} className="no-redirect" />
               )}
               <Text size={"sm"}>{likes}</Text>
             </HStack>
             <Icon
               as={BiLinkAlt}
+              className="no-redirect"
               boxSize={6}
               _hover={{ color: "green.500", cursor: "pointer" }}
-              color={"gray.500"}
-              className="no-redirect"
             />
           </HStack>
         </VStack>

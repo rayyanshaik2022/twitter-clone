@@ -1,4 +1,3 @@
-import { Heading } from "@chakra-ui/react";
 import HomePost from "./HomePost";
 
 import { collection, getDocs } from "firebase/firestore";

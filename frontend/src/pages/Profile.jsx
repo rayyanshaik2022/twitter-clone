@@ -30,8 +30,6 @@ import { useParams } from "react-router-dom";
 // Import components
 import HomeLeftSidebar from "../components/HomeLeftSidebar";
 import HomeRightSideBar from "../components/HomeRightSidebar";
-import HomeMakeTweet from "../components/HomeMakeTweet";
-import HomeFeed from "../components/HomeFeed";
 import ProfileFeed from "../components/ProfileFeed";
 
 import { BiCalendarHeart, BiLocationPlus } from "react-icons/bi";
@@ -39,7 +37,6 @@ import { BiCalendarHeart, BiLocationPlus } from "react-icons/bi";
 function Profile() {
   const { authUser } = useUser();
   let { username } = useParams();
-  const [pushPost, setPushPost] = useState(null);
   const [user, setUser] = useState(null);
   const db = useFirestore();
 

@@ -31,8 +31,12 @@ const router = createBrowserRouter([
     element: <App page="profile" />
   },
   {
+    path: "/:username/status/:postid",
+    element: <App page="post" />
+  },
+  {
     path: "*",
-    element: <App />
+    element: <App page="home"/>
   }
 ]);
 
