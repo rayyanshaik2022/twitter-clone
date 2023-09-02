@@ -27,7 +27,7 @@ import {
 import { useState, useEffect } from "react";
 import { useUser } from "../hooks/useUser";
 import { useFirestore } from "../firebase";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 // Import components
 import HomeLeftSidebar from "../components/HomeLeftSidebar";
@@ -59,8 +59,10 @@ function Post() {
   const [user, setUser] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState(0);
+  const [pushComment, setPushComment] = useState(null)
   const db = useFirestore();
   const toast = useToast();
+  const navigate = useNavigate()
 
   useEffect(() => {
     const getData = async () => {
@@ -225,6 +227,8 @@ function Post() {
                   minW={"40px"}
                   borderRadius={"50%"}
                   bg={"blue.200"}
+                  _hover={{ cursor: "pointer", transform: "scale(1.05)" }}
+                  onClick={() => navigate("/profile/" + author.username)}
                 />
               ) : (
                 <Box
@@ -276,13 +280,14 @@ function Post() {
             ></Box>
 
             <HStack
-              w={"90%"}
+              w={"100%"}
               justifyContent={"space-around"}
               alignSelf={"start"}
               mt={2}
               mb={-2}
               color={"gray.500"}
               pb={2}
+              px={2}
             >
               <Icon
                 as={BiComment}
@@ -315,8 +320,8 @@ function Post() {
             </HStack>
           </Flex>
           {/* <ProfileFeed user={user} /> */}
-          <PostMakeComment user={user} postId={postid} />
-          <CommentFeed post={post} />
+          <PostMakeComment user={user} postId={postid} pushComment={pushComment} setPushComment={setPushComment}/>
+          <CommentFeed post={post} pushComment={pushComment} setPushComment={setPushComment}/>
         </Box>
         <HomeRightSideBar />
       </Grid>

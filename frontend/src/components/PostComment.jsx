@@ -122,7 +122,9 @@ function PostComment(props) {
                   timeSince(props.datePosted.toDate()) +
                   " ago"} */}
               @{props.comment.authorUsername} •{" "}
-              {timeSince(props.comment.datePosted.toDate())} ago
+              {
+                props.comment.new ? timeSince(props.comment.datePosted) : timeSince(props.comment.datePosted.toDate())
+              } ago
             </Heading>
           </HStack>
           <Text justifyContent={"start"} w={"100%"}>

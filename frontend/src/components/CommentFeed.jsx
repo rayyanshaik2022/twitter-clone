@@ -35,6 +35,16 @@ function CommentFeed(props) {
 
     myQuery();
   }, [props.post]);
+
+  useEffect(() => {
+    if (!props.pushComment) {
+      return;
+    }
+
+    setComments([props.pushComment, ...comments]);
+    props.setPushComment(null);
+  }, [props.pushComment]);
+
   return (
     <>
       {comments.map((comm) => (
