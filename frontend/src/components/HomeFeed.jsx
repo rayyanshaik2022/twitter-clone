@@ -12,7 +12,7 @@ function HomeFeed(props) {
   useEffect(() => {
     const myQuery = async () => {
       const postsRef = collection(db, "Posts");
-      const q = query(postsRef, orderBy("datePosted", "desc"), limit(20));
+      const q = query(postsRef, orderBy("datePosted", "desc"), limit(80));
 
       const querySnapshot = await getDocs(q);
       let newPosts = [];

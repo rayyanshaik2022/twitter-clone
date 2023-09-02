@@ -36,6 +36,61 @@ exports.newUserSignUp = functions.auth.user().onCreate((user) => {
     });
 });
 
+exports.newComment = functions.https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError(
+      "unauthenticated",
+      "Only an authorized user can access this"
+    );
+  }
+
+  // data = {
+  //   author: {
+  //     id: "",
+  //     username: ""
+  //   },
+  //   post: {
+  //     id: "",
+  //   },
+  //   textContent: ""
+  // }
+
+  const commentDate = new Date();
+  const commentRef = await admin.firestore().collection("Comments").add({
+    authorId: context.auth.uid,
+    authorUsername: data.author.username,
+    datePosted: commentDate,
+    postId: data.post.id,
+    textContent: data.textContent,
+  });
+
+  // Add comment to post
+  const updatePostRef = await admin
+    .firestore()
+    .collection("Posts")
+    .doc(data.post.id)
+    .update({
+      comments: admin.firestore.FieldValue.arrayUnion(commentRef.id),
+    });
+
+  // Add comment to user
+  const updateUserRef = await admin
+    .firestore()
+    .collection("Users")
+    .doc(context.auth.uid)
+    .update({
+      comments: admin.firestore.FieldValue.arrayUnion(commentRef.id),
+    });
+
+  return {
+    id: commentRef.id,
+    authorId: context.auth.uid,
+    authorUsername: data.author.username,
+    datePosted: commentDate,
+    textContent: data.textContent,
+  };
+});
+
 exports.newPost = functions.https.onCall(async (data, context) => {
   if (!context.auth || context.auth.uid != data.author.id) {
     throw new functions.https.HttpsError(
@@ -92,8 +147,9 @@ exports.likePost = functions.https.onCall(async (data, context) => {
   const userRef = await admin
     .firestore()
     .collection("Users")
-    .doc(context.auth.uid).get();
-    functions.logger.log(userRef)
+    .doc(context.auth.uid)
+    .get();
+  functions.logger.log(userRef);
   const userData = userRef.data();
 
   // Unlike post
@@ -116,7 +172,7 @@ exports.likePost = functions.https.onCall(async (data, context) => {
         likes: admin.firestore.FieldValue.increment(-1),
       });
 
-      return {"likeStatus" : -1};
+    return { likeStatus: -1 };
   } else {
     // Like post
     // Updated liked list for user
@@ -136,7 +192,7 @@ exports.likePost = functions.https.onCall(async (data, context) => {
       .update({
         likes: admin.firestore.FieldValue.increment(1),
       });
-      return {"likeStatus" : -2};
+    return { likeStatus: -2 };
   }
 });
 

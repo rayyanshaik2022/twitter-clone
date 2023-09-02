@@ -25,7 +25,7 @@ function ProfileFeed(props) {
       const q = query(
         collection(db, "Posts"),
         where("authorUsername", "==", props.user.username),
-        limit(20)
+        limit(80)
       );
       const querySnapshot = await getDocs(q);
       let newPosts = [];

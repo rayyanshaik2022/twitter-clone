@@ -32,7 +32,8 @@ import { useParams } from "react-router-dom";
 // Import components
 import HomeLeftSidebar from "../components/HomeLeftSidebar";
 import HomeRightSideBar from "../components/HomeRightSidebar";
-import ProfileFeed from "../components/ProfileFeed";
+import PostMakeComment from "../components/PostMakeComment";
+import CommentFeed from "../components/CommentFeed";
 
 import { BiComment, BiHeart, BiLinkAlt } from "react-icons/bi";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
@@ -314,6 +315,8 @@ function Post() {
             </HStack>
           </Flex>
           {/* <ProfileFeed user={user} /> */}
+          <PostMakeComment user={user} postId={postid} />
+          <CommentFeed post={post} />
         </Box>
         <HomeRightSideBar />
       </Grid>

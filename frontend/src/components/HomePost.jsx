@@ -132,7 +132,7 @@ function HomePost(props) {
       top={0}
       zIndex={1}
       _hover={{ bg: "gray.50", cursor: "pointer" }}
-      onClick={(e) => !e.target.closest(".no-redirect") && navigate("/sign-up")}
+      onClick={(e) => !e.target.closest(".no-redirect") && navigate(`/${props.authorUsername}/status/${props.id}`)}
     >
       <HStack gap={2} w={"100%"}>
         {user ? (
