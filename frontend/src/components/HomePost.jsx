@@ -7,12 +7,15 @@ import {
   Heading,
   Icon,
   Image,
+  keyframes,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { BiComment, BiHeart, BiLinkAlt } from "react-icons/bi";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { useFirestore } from "../firebase";
 import { getDoc, doc } from "firebase/firestore";
-import { color } from "framer-motion";
+import { getFunctions, httpsCallable } from "firebase/functions";
 
 function timeSince(date) {
   var seconds = Math.floor((new Date() - date) / 1000);
@@ -41,8 +44,23 @@ function timeSince(date) {
   return Math.floor(seconds) + " seconds";
 }
 
+const likeAnimation = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3)
+  }
+  100% {
+    transform: scale(1)
+  }
+`;
+
 function HomePost(props) {
   const [user, setUser] = useState(null);
+  const [isLiked, setIsLiked] = useState(false);
+  const [likes, setLikes] = useState(props.likes);
+  const navigate = useNavigate();
   const db = useFirestore();
 
   useEffect(() => {
@@ -63,7 +81,35 @@ function HomePost(props) {
     };
 
     getData();
+
   }, []);
+
+  useEffect(() => {
+    if (!props.user) {
+      return;
+    }
+
+    if (props.user.liked.includes(props.id)) {
+      setIsLiked(true);
+    }
+
+    console.log(props.user)
+  }, [props.user])
+  
+
+  const handleClickLikePost = async () => {
+    setIsLiked(!isLiked);
+
+    isLiked ? setLikes(likes - 1) : setLikes(likes + 1);
+
+    // Make like request to cloud functions here
+    const functions = getFunctions();
+    const likePost = httpsCallable(functions, "likePost");
+    const result = await likePost({
+      post: { id: props.id },
+      author: { id: props.authorId },
+    });
+  };
 
   return (
     <Flex
@@ -85,6 +131,8 @@ function HomePost(props) {
             bg={"blue.200"}
             mr={2}
             alignSelf={"start"}
+            _hover={{ cursor: "pointer" }}
+            onClick={() => navigate("/profile/" + user.username)}
           />
         ) : (
           <Box
@@ -106,6 +154,8 @@ function HomePost(props) {
               size={"sm"}
               fontWeight={"300"}
               color={"gray.500"}
+              _hover={{ cursor: "pointer" }}
+              onClick={() => navigate("/profile/" + user.username)}
             >
               {props.isNewClient
                 ? "@" + props.authorUsername + " • " + "1 second" + " ago"
@@ -130,17 +180,29 @@ function HomePost(props) {
               _hover={{ color: "blue.500", cursor: "pointer" }}
               color={"gray.500"}
               p={2}
+              userSelect={"none"}
             >
               <Icon as={BiComment} boxSize={6} />
               <Text size={"sm"}>{props.comments.length}</Text>
             </HStack>
             <HStack
               _hover={{ color: "red.500", cursor: "pointer" }}
+              onClick={handleClickLikePost}
               color={"gray.500"}
               p={2}
+              userSelect={"none"}
             >
-              <Icon as={BiHeart} boxSize={6} />
-              <Text size={"sm"}>{props.likes}</Text>
+              {isLiked ? (
+                <Icon
+                  as={AiFillHeart}
+                  boxSize={6}
+                  color={"red.500"}
+                  animation={`${likeAnimation} 0.4s ease-in-out`}
+                />
+              ) : (
+                <Icon as={AiOutlineHeart} boxSize={6} />
+              )}
+              <Text size={"sm"}>{likes}</Text>
             </HStack>
             <Icon
               as={BiLinkAlt}

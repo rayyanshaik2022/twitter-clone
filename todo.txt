@@ -4,8 +4,10 @@ TODOS
 * Like posts
 * Comment posts
 * Dynamic urls for posts (/username/postid)
-* Dynamic urls for profiles
-*Sidebar have @username correct at bottom left
 *Trending and who to follow
 * Optimize feed
 *
+
+DONE
+*Sidebar have @username correct at bottom left
+* Dynamic urls for profiles

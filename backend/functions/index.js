@@ -32,7 +32,7 @@ exports.newUserSignUp = functions.auth.user().onCreate((user) => {
       location: "Earth",
       photoURL: user.photoURL,
       following: [],
-      followers: []
+      followers: [],
     });
 });
 
@@ -73,6 +73,70 @@ exports.newPost = functions.https.onCall(async (data, context) => {
     likes: 0,
     textContent: data.textContent,
   };
+});
+
+exports.likePost = functions.https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError(
+      "unauthenticated",
+      "Only an authorized user can access this"
+    );
+  }
+
+  // data = {
+  //   post: {id: ""},
+  //   author: {id: ""}
+  // }
+
+  const userRef = await admin
+    .firestore()
+    .collection("Users")
+    .doc(context.auth.uid).get();
+    functions.logger.log(userRef)
+  const userData = userRef.data();
+
+  // Unlike post
+  if (userData.liked.includes(data.post.id)) {
+    // Updated liked list for user
+    const updateUserRef = await admin
+      .firestore()
+      .collection("Users")
+      .doc(data.author.id)
+      .update({
+        liked: admin.firestore.FieldValue.arrayRemove(data.post.id),
+      });
+
+    // Update post like count
+    const postRef = await admin
+      .firestore()
+      .collection("Posts")
+      .doc(data.post.id)
+      .update({
+        likes: admin.firestore.FieldValue.increment(-1),
+      });
+
+      return {"likeStatus" : -1};
+  } else {
+    // Like post
+    // Updated liked list for user
+    const updateUserRef = await admin
+      .firestore()
+      .collection("Users")
+      .doc(data.author.id)
+      .update({
+        liked: admin.firestore.FieldValue.arrayUnion(data.post.id),
+      });
+
+    // Update post like count
+    const postRef = await admin
+      .firestore()
+      .collection("Posts")
+      .doc(data.post.id)
+      .update({
+        likes: admin.firestore.FieldValue.increment(1),
+      });
+      return {"likeStatus" : -2};
+  }
 });
 
 // /**

@@ -76,7 +76,7 @@ function Home() {
             </Heading>
           </Box>
           <HomeMakeTweet pushPost={pushPost} setPushPost={setPushPost} />
-          <HomeFeed pushPost={pushPost} setPushPost={setPushPost} />
+          <HomeFeed pushPost={pushPost} setPushPost={setPushPost} user={user} />
         </Box>
         <HomeRightSideBar />
       </Grid>

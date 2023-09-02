@@ -104,6 +104,7 @@ function HomeMakeTweet(props) {
             minW={"40px"}
             borderRadius={"50%"}
             bg={"blue.200"}
+            alignSelf={"start"}
           />
         ) : (
           <Box

@@ -50,9 +50,9 @@ function ProfileFeed(props) {
       {props.user
         ? posts.map((post) =>
             post.id ? (
-              <HomePost key={post.id} {...post} />
+              <HomePost key={post.id} {...post} user={props.user}/>
             ) : (
-              <HomePost key={post.newClientId} {...post} />
+              <HomePost key={post.newClientId} {...post} user={props.user}/>
             )
           )
         : (
