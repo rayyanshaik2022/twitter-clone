@@ -8,6 +8,7 @@ import {
   Icon,
   Image,
   keyframes,
+  useToast,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -63,6 +64,7 @@ function HomePost(props) {
   const [likes, setLikes] = useState(props.likes);
   const navigate = useNavigate();
   const db = useFirestore();
+  const toast = useToast();
 
   useEffect(() => {
     const getData = async () => {
@@ -108,6 +110,18 @@ function HomePost(props) {
     });
   };
 
+  const linkCopiedToast = () => {
+    navigator.clipboard.writeText("http://localhost:5173/"+props.authorUsername+"/status/"+props.id)
+    toast({
+      position: "bottom-center",
+      render: () => (
+        <Box color="white" w={"220px"} mb={4} py={2} px={2} bg="blue.400" borderRadius={6} textAlign={"center"}>
+          Link copied to clipboard!
+        </Box>
+      ),
+    });
+  };
+
   return (
     <Flex
       w={"100%"}
@@ -118,9 +132,7 @@ function HomePost(props) {
       top={0}
       zIndex={1}
       _hover={{ bg: "gray.50", cursor: "pointer" }}
-      onClick={(e) =>
-        !e.target.closest(".no-redirect") && navigate("/sign-up")
-      }
+      onClick={(e) => !e.target.closest(".no-redirect") && navigate("/sign-up")}
     >
       <HStack gap={2} w={"100%"}>
         {user ? (
@@ -214,6 +226,7 @@ function HomePost(props) {
             </HStack>
             <Icon
               as={BiLinkAlt}
+              onClick={linkCopiedToast}
               className="no-redirect"
               boxSize={6}
               _hover={{ color: "green.500", cursor: "pointer" }}

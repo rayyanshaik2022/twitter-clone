@@ -9,6 +9,8 @@ import {
   HStack,
   Icon,
   Button,
+  keyframes,
+  useToast,
 } from "@chakra-ui/react";
 
 import { auth } from "../firebase";
@@ -32,14 +34,32 @@ import HomeLeftSidebar from "../components/HomeLeftSidebar";
 import HomeRightSideBar from "../components/HomeRightSidebar";
 import ProfileFeed from "../components/ProfileFeed";
 
-import { BiCalendarHeart, BiLocationPlus } from "react-icons/bi";
+import { BiComment, BiHeart, BiLinkAlt } from "react-icons/bi";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { getFunctions, httpsCallable } from "firebase/functions";
+
+const likeAnimation = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3)
+  }
+  100% {
+    transform: scale(1)
+  }
+`;
 
 function Post() {
   const { authUser } = useUser();
   let { username, postid } = useParams();
   const [author, setAuthor] = useState(null);
   const [post, setPost] = useState(null);
+  const [user, setUser] = useState(null);
+  const [isLiked, setIsLiked] = useState(false);
+  const [likes, setLikes] = useState(0);
   const db = useFirestore();
+  const toast = useToast();
 
   useEffect(() => {
     const getData = async () => {
@@ -75,6 +95,7 @@ function Post() {
           if (postSnap.exists()) {
             console.log("Post document data:", postSnap.data());
             setPost({ ...postSnap.data(), id: postid });
+            setLikes(postSnap.data().likes);
           } else {
             // docSnap.data() will be undefined in this case
             console.log("No such document!");
@@ -90,13 +111,68 @@ function Post() {
       }
     };
 
+    const getUserData = async () => {
+      try {
+        const docRefUser = doc(db, "Users", authUser.uid);
+        const docSnap = await getDoc(docRefUser);
+
+        if (!docSnap.exists()) {
+          return;
+        }
+
+        const userData = docSnap.data();
+        setUser(userData);
+        setIsLiked(userData.liked.includes(postid));
+      } catch (e) {
+        console.log("ERROR", e);
+      }
+    };
+
     if (!authUser) {
       return;
     }
 
     getData();
     getPostData();
+    getUserData();
   }, [authUser]);
+
+  const handleClickLikePost = async () => {
+    setIsLiked(!isLiked);
+
+    isLiked ? setLikes(likes - 1) : setLikes(likes + 1);
+
+    // Make like request to cloud functions here
+    const functions = getFunctions();
+    const likePost = httpsCallable(functions, "likePost");
+    const result = await likePost({
+      post: { id: postid },
+      author: { id: post.authorId },
+    });
+  };
+
+  const linkCopiedToast = () => {
+    navigator.clipboard.writeText(
+      "http://localhost:5173/" + author.username + "/status/" + postid
+    );
+    toast({
+      position: "bottom-center",
+      render: () => (
+        <Box
+          color="white"
+          w={"220px"}
+          mb={4}
+          py={2}
+          px={2}
+          bg="blue.400"
+          borderRadius={6}
+          textAlign={"center"}
+        >
+          Link copied to clipboard!
+        </Box>
+      ),
+    });
+  };
 
   if (!authUser || !author || !post) {
     return <>Loading Post...</>;
@@ -136,7 +212,8 @@ function Post() {
             pos={"relative"}
             borderBottom={"1px solid"}
             borderBottomColor={"gray.300"}
-            p={3}
+            py={3}
+            px={4}
             gap={2}
           >
             <HStack>
@@ -174,13 +251,66 @@ function Post() {
                 {new Date(post.datePosted.toDate().toString()).toDateString()}
               </Text>
             </HStack>
-            <Box w={"99%"} h={"1px"} alignSelf={"center"} bg={"gray.300"}></Box>
+            <Box
+              w={"100%"}
+              h={"1px"}
+              alignSelf={"center"}
+              bg={"gray.300"}
+            ></Box>
             <HStack gap={1}>
-                <Text fontWeight={"600"}>{post.likes}</Text>
-                <Text color={"gray.600"} mr={4}> likes</Text>
+              <Text fontWeight={"600"}>{likes}</Text>
+              <Text color={"gray.600"} mr={4}>
+                {" "}
+                likes
+              </Text>
 
-                <Text fontWeight={"600"}>{post.comments.length}</Text>
-                <Text color={"gray.600"}> replies</Text>
+              <Text fontWeight={"600"}>{post.comments.length}</Text>
+              <Text color={"gray.600"}> replies</Text>
+            </HStack>
+            <Box
+              w={"100%"}
+              h={"1px"}
+              alignSelf={"center"}
+              bg={"gray.300"}
+            ></Box>
+
+            <HStack
+              w={"90%"}
+              justifyContent={"space-around"}
+              alignSelf={"start"}
+              mt={2}
+              mb={-2}
+              color={"gray.500"}
+              pb={2}
+            >
+              <Icon
+                as={BiComment}
+                boxSize={6}
+                _hover={{ color: "blue.500", cursor: "pointer" }}
+              />
+              <Box
+                _hover={{ color: "red.500", cursor: "pointer" }}
+                onClick={handleClickLikePost}
+                color={"gray.500"}
+                userSelect={"none"}
+              >
+                {isLiked ? (
+                  <Icon
+                    as={AiFillHeart}
+                    boxSize={6}
+                    color={"red.500"}
+                    animation={`${likeAnimation} 0.4s ease-in-out`}
+                  />
+                ) : (
+                  <Icon as={AiOutlineHeart} boxSize={6} />
+                )}
+              </Box>
+              <Icon
+                as={BiLinkAlt}
+                onClick={linkCopiedToast}
+                boxSize={6}
+                _hover={{ color: "green.500", cursor: "pointer" }}
+              />
             </HStack>
           </Flex>
           {/* <ProfileFeed user={user} /> */}
