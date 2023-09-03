@@ -8,6 +8,7 @@ import {
   Center,
   Link,
 } from "@chakra-ui/react";
+import { useMediaQuery } from "@chakra-ui/react";
 
 import { auth, provider } from "../firebase";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
@@ -17,7 +18,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 
 function Signup() {
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
   const onClickSignUp = (e) => {
     e.preventDefault();
     signInWithPopup(auth, provider)
@@ -32,22 +33,32 @@ function Signup() {
         navigate("/home");
       })
       .catch((error) => {
-        console.log("ERROR",error);
+        console.log("ERROR", error);
       });
   };
+
+  const [isLargerThan880] = useMediaQuery('(min-height: 800px)')
+
   return (
     <>
-      <Grid gridTemplateColumns={"5.8fr 4.2fr"}>
+      <Grid gridTemplateColumns={{ base: "1fr", lg: "5.8fr 4.2fr" }}>
         <Flex
           w={"100%"}
           h={"100vh"}
           bg={"blue.300"}
           justifyContent={"center"}
           alignItems={"center"}
+          display={{ base: "none", lg: "flex" }}
         >
           <Icon as={FaTwitter} boxSize={80} color={"white"} />
         </Flex>
-        <Flex flexDir={"column"} px={8} py={48} gap={8}>
+        <Flex
+          flexDir={"column"}
+          px={8}
+          py={isLargerThan880 ? 48 : 12}
+          gap={8}
+          align={{ base: "center", lg: "initial" }}
+        >
           <Icon as={FaTwitter} boxSize={10} color={"blue.300"} />
           <Heading as={"h1"} size={"3xl"}>
             Happening Now
