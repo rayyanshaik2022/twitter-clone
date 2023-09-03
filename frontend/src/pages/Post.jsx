@@ -335,7 +335,7 @@ function Post() {
             setPushComment={setPushComment}
           />
         </Box>
-        <HomeRightSideBar user={user} />
+        <HomeRightSideBar user={user} setUser={setUser} />
       </Grid>
     </>
   );

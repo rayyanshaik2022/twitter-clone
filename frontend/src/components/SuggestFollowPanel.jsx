@@ -24,7 +24,7 @@ import {
   limit,
   orderBy,
 } from "firebase/firestore";
-import { useFirestore } from "../firebase";
+import { auth, useFirestore } from "../firebase";
 import { useUser } from "../hooks/useUser";
 
 import FollowUserCard from "./FollowUserCard";
@@ -35,7 +35,7 @@ function SuggestFollowPanel(props) {
   const db = useFirestore();
 
   useEffect(() => {
-    if (!props.user) {
+    if (!props.user || !authUser) {
       return;
     }
 
@@ -57,7 +57,12 @@ function SuggestFollowPanel(props) {
     };
 
     getData();
-  }, [props.user]);
+  }, [props.user, authUser]);
+
+
+  if (!props.user) {
+    return <>Loading...</>
+  }
 
   return (
     <Flex
@@ -73,31 +78,12 @@ function SuggestFollowPanel(props) {
       </Heading>
       {
         users.map((user, index) => user.username && index < 4 ? (
-          <FollowUserCard user={user} key={user.username} />
+          <FollowUserCard user={user} authUser={props.user} setAuthUser={props.setUser} key={user.username} />
         ) : (null))
       }
-      {/* <HStack>
-        <Box boxSize={"40px"} borderRadius={"50%"} bg={"blue.200"} mr={1}></Box>
-        <VStack alignItems={"start"} gap={0}>
-          <Text fontWeight={"600"}>Display Name</Text>
-          <Text color={"gray.500"}>@Username</Text>
-        </VStack>
-        <Spacer />
-        <Button colorScheme="blackAlpha" bg={"black"} borderRadius={"100px"}>
-          Follow
-        </Button>
-      </HStack>
-      <HStack>
-        <Box boxSize={"40px"} borderRadius={"50%"} bg={"blue.200"} mr={1}></Box>
-        <VStack alignItems={"start"} gap={0}>
-          <Text fontWeight={"600"}>Display Name</Text>
-          <Text color={"gray.500"}>@Username</Text>
-        </VStack>
-        <Spacer />
-        <Button colorScheme="blackAlpha" bg={"black"} borderRadius={"100px"}>
-          Follow
-        </Button>
-      </HStack> */}
+      {
+        users.length <= 1 ? (<Text size={"sm"}>No suggested users!</Text>) : null
+      }
     </Flex>
   );
 }

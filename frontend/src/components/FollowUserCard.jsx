@@ -1,6 +1,35 @@
 import { HStack, Image, VStack, Text, Spacer, Button } from "@chakra-ui/react";
+import { getFunctions, httpsCallable } from "firebase/functions";
+
+import { useState } from "react";
 
 function FollowUserCard(props) {
+  const [follows, setFollows] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [btnText, setBtnText] = useState("Following");
+
+  const onClickFollow = async () => {
+    setIsLoading(true);
+
+    const functions = getFunctions();
+    const followUser = httpsCallable(functions, "followUser");
+    const result = await followUser({
+      user: { uid: props.user.uid },
+    });
+
+    setFollows(!follows);
+
+    setIsLoading(false);
+  };
+
+  const onHoverBtnText = () => {
+    setBtnText("Unfollow");
+  };
+
+  const onHoverOutBtnText = () => {
+    setBtnText("Following");
+  };
+
   return (
     <>
       <HStack>
@@ -16,9 +45,35 @@ function FollowUserCard(props) {
           <Text color={"gray.500"}>@{props.user.username}</Text>
         </VStack>
         <Spacer />
-        <Button colorScheme="blackAlpha" bg={"black"} borderRadius={"100px"}>
-          Follow
-        </Button>
+        {!follows ? (
+          <Button
+            colorScheme="blackAlpha"
+            bg={"black"}
+            borderRadius={"100px"}
+            onClick={onClickFollow}
+            isLoading={isLoading}
+          >
+            Follow
+          </Button>
+        ) : (
+          <Button
+            colorScheme="blackAlpha"
+            bg={"black"}
+            borderRadius={"100px"}
+            onClick={onClickFollow}
+            _hover={{
+              bg: "red.100",
+              border: "1px solid",
+              borderColor: "red.500",
+              color: "red.500",
+            }}
+            onMouseOver={onHoverBtnText}
+            onMouseOut={onHoverOutBtnText}
+            isLoading={isLoading}
+          >
+            {btnText}
+          </Button>
+        )}
       </HStack>
     </>
   );

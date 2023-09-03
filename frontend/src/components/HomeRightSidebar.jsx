@@ -46,7 +46,7 @@ function HomeRightSideBar(props) {
         />
       </InputGroup>
       <TrendsPanel  />
-      <SuggestFollowPanel user={props.user}/>
+      <SuggestFollowPanel user={props.user} setUser={props.setUser}/>
     </Flex>
   );
 }

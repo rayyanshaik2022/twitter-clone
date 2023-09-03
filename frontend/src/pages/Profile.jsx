@@ -38,6 +38,7 @@ function Profile() {
   const { authUser } = useUser();
   let { username } = useParams();
   const [user, setUser] = useState(null);
+  const [myUser, setMyUser] = useState(null);
   const db = useFirestore();
 
   useEffect(() => {
@@ -72,11 +73,28 @@ function Profile() {
       }
     };
 
+    const getAuthData = async () => {
+      try {
+        const docRefUser = doc(db, "Users", authUser.uid);
+        const docSnap = await getDoc(docRefUser);
+
+        if (!docSnap.exists()) {
+          return;
+        }
+
+        const userData = docSnap.data();
+        setMyUser({...userData, id: docRefUser.id});
+      } catch (e) {
+        console.log("ERROR", e);
+      }
+    }
+
     if (!authUser) {
       return;
     }
 
     getData();
+    getAuthData()
   }, [authUser]);
 
   if (!authUser) {
@@ -178,8 +196,8 @@ function Profile() {
                   </HStack>
                 </HStack>
               </Flex>
-              {
-                ( user && user.uid == authUser.uid) ? (<Button
+              {user && user.uid == authUser.uid ? (
+                <Button
                   pos={"absolute"}
                   top={4}
                   right={4}
@@ -188,8 +206,8 @@ function Profile() {
                   variant={"outline"}
                 >
                   Edit Profile
-                </Button>) : null
-              }
+                </Button>
+              ) : null}
             </Box>
             {user ? (
               <Image
@@ -218,7 +236,7 @@ function Profile() {
           </Flex>
           <ProfileFeed user={user} />
         </Box>
-        <HomeRightSideBar user={user}/>
+        <HomeRightSideBar user={myUser} setUser={setUser} />
       </Grid>
     </>
   );
