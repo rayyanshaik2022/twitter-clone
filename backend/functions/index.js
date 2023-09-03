@@ -146,6 +146,7 @@ exports.newPost = functions.https.onCall(async (data, context) => {
           .update({
             hashtag: word,
             posts: admin.firestore.FieldValue.arrayUnion(postRef.id),
+            postCount: admin.firestore.FieldValue.increment(1)
           });
       } else {
         let hashRef = await admin
@@ -155,6 +156,7 @@ exports.newPost = functions.https.onCall(async (data, context) => {
           .set({
             hashtag: word,
             posts: [postRef.id],
+            postCount: 1
           });
       }
     }

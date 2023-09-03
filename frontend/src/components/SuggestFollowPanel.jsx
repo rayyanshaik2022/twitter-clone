@@ -1,30 +1,20 @@
 import {
   Flex,
-  VStack,
-  HStack,
-  Box,
   Heading,
   Text,
-  Spacer,
-  Button,
-  Image
 } from "@chakra-ui/react";
 
 import { useEffect, useState } from "react";
 
 import {
-  getDoc,
-  doc,
   query,
   getDocs,
   where,
   collection,
   documentId,
-  FieldPath,
   limit,
-  orderBy,
 } from "firebase/firestore";
-import { auth, useFirestore } from "../firebase";
+import { useFirestore } from "../firebase";
 import { useUser } from "../hooks/useUser";
 
 import FollowUserCard from "./FollowUserCard";

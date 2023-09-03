@@ -1,7 +1,35 @@
 import { Flex, VStack, Heading, Text } from "@chakra-ui/react";
+import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { useFirestore } from "../firebase";
+import { useNavigate } from "react-router-dom";
+function TrendsPanel() {
+  const [hashtags, setHashtags] = useState([]);
+  const db = useFirestore();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const getData = async () => {
+      const q = query(
+        collection(db, "Hashtags"),
+        orderBy("postCount", "desc"),
+        limit(4)
+      );
 
-function TrendsPanel(props) {
+      const querySnapshot = await getDocs(q);
+
+      let newHashtags = [];
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        newHashtags.push(doc.data());
+      });
+
+      console.log(newHashtags)
+      setHashtags(newHashtags);
+    };
+
+    getData();
+  }, []);
 
   return (
     <Flex
@@ -13,41 +41,27 @@ function TrendsPanel(props) {
       flexDir={"column"}
     >
       <Heading as={"h1"} fontSize={"2xl"} fontWeight={700}>
-        What's Happening
+        {"What's Happening"}
       </Heading>
-      <VStack alignItems={"start"} gap={0}>
-        <Text fontSize={"sm"} color={"gray.400"}>
-          Trending
-        </Text>
-        <Heading as={"h2"} fontSize={"lg"}>
-          #monday
-        </Heading>
-        <Text fontSize={"sm"} color={"gray.400"}>
-          12.1k Tweets
-        </Text>
-      </VStack>
-      <VStack alignItems={"start"} gap={0}>
-        <Text fontSize={"sm"} color={"gray.400"}>
-          Trending
-        </Text>
-        <Heading as={"h2"} fontSize={"lg"}>
-          #monday
-        </Heading>
-        <Text fontSize={"sm"} color={"gray.400"}>
-          12.1k Tweets
-        </Text>
-      </VStack>
-      <VStack alignItems={"start"} gap={0}>
-        <Text fontSize={"sm"} color={"gray.400"}>
-          Trending
-        </Text>
-        <Heading as={"h2"} fontSize={"lg"}>
-          #monday
-        </Heading>
-        <Text fontSize={"sm"} color={"gray.400"}>
-          12.1k Tweets
-        </Text>
-      </VStack>
+      
+      {hashtags.map((hashtag, index) =>
+        hashtag.postCount && index < 3 ? (
+          (<VStack alignItems={"start"} gap={0} key={hashtag.hashtag}>
+            <Text fontSize={"sm"} color={"gray.500"}>
+              Trending
+            </Text>
+            <Heading as={"h2"} fontSize={"lg"} _hover={{textDecoration: "underline", cursor: "pointer"}} onClick={() => {
+              navigate(`/hashtag/${hashtag.hashtag.substring(1)}`)
+            }}>
+              {hashtag.hashtag}
+            </Heading>
+            <Text fontSize={"sm"} color={"gray.500"}>
+              {hashtag.postCount} Tweets
+            </Text>
+          </VStack>)
+        ) : null
+      )}
+      
     </Flex>
   );
 }

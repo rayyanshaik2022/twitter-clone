@@ -1,10 +1,5 @@
 import { Flex, Heading } from "@chakra-ui/react";
 import {
-  query,
-  where,
-  getDocs,
-  collection,
-  limit,
   doc,
   getDoc,
 } from "firebase/firestore";
