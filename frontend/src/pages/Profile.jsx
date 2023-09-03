@@ -9,6 +9,7 @@ import {
   HStack,
   Icon,
   Button,
+  useMediaQuery,
 } from "@chakra-ui/react";
 
 import {
@@ -37,7 +38,20 @@ function Profile() {
   let { username } = useParams();
   const [user, setUser] = useState(null);
   const [myUser, setMyUser] = useState(null);
+
+  const [isLargerThan1280W] = useMediaQuery("(min-width: 1280px)");
+  const [isLargerThan1020W] = useMediaQuery("(min-width: 1020px)");
   const db = useFirestore();
+  
+  const getGridColumns = () => {
+    if (isLargerThan1280W) {
+      return "repeat(3, 1fr)";
+    } else if (isLargerThan1020W) {
+      return "minmax(84px, 1fr) minmax(460px, 1fr) minmax(320px, 3fr)";
+    } else {
+      return "minmax(84px, 1fr) minmax(320px, 6fr)";
+    }
+  };
 
   useEffect(() => {
     const getData = async () => {
@@ -101,7 +115,7 @@ function Profile() {
 
   return (
     <>
-      <Grid templateColumns={"repeat(3, 1fr)"} p={0}>
+      <Grid templateColumns={getGridColumns()} p={0}>
         <HomeLeftSidebar user={user} />
         <Box
           w={"100%"}
@@ -234,7 +248,10 @@ function Profile() {
           </Flex>
           <ProfileFeed user={user} />
         </Box>
-        <HomeRightSideBar user={myUser} setUser={setUser} />
+        
+        {isLargerThan1020W ? (
+          <HomeRightSideBar user={myUser} setUser={setUser} />
+        ) : null}
       </Grid>
     </>
   );

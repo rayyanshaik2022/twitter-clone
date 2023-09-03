@@ -60,7 +60,7 @@ function Signup() {
           align={{ base: "center", lg: "initial" }}
         >
           <Icon as={FaTwitter} boxSize={10} color={"blue.300"} />
-          <Heading as={"h1"} size={"3xl"}>
+          <Heading as={"h1"} size={{base: "2xl", lg: "3xl"}}>
             Happening Now
           </Heading>
           <Heading as={"h2"}>Join Twitter today</Heading>
