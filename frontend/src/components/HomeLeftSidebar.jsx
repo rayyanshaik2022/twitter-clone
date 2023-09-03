@@ -8,10 +8,6 @@ import {
   Box,
   Spacer,
   Image,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
 } from "@chakra-ui/react";
 
 import { FaTwitter } from "react-icons/fa";
@@ -29,7 +25,8 @@ import { CgMoreO } from "react-icons/cg";
 
 import { useUser } from "../hooks/useUser";
 import { useNavigate } from "react-router-dom";
-
+import { signOut } from "firebase/auth";
+import { auth, provider } from "../firebase";
 function HomeLeftSidebar(props) {
   const { authUser } = useUser();
   const navigate = useNavigate();
@@ -43,6 +40,14 @@ function HomeLeftSidebar(props) {
     navigate("/home");
     document.getElementsByClassName("post-input")[0].focus();
   };
+
+  const onClickSignOut = () => {
+    signOut(auth).then(() => {
+      navigate("/sign-up")
+    }).catch((e) => {
+      console.log(e)
+    })
+  }
 
   const navigateProfile = () => {
     navigate("/profile");
@@ -63,7 +68,10 @@ function HomeLeftSidebar(props) {
       userSelect={"none"}
     >
       <Flex flexDir={"column"} gap={12}>
-        <Icon as={FaTwitter} boxSize={10} color={"blue.400"} />
+        <HStack justify={"space-between"}>
+          <Icon as={FaTwitter} boxSize={10} color={"blue.400"} />{" "}
+          <Button colorScheme="blue" borderRadius={"100px"} onClick={onClickSignOut}>Log out</Button>
+        </HStack>
         <Flex flexDir={"column"} gap={1} fontSize={"xl"} fontWeight={"500"}>
           <HStack
             gap={4}
@@ -186,7 +194,7 @@ function HomeLeftSidebar(props) {
           </VStack>
         </HStack>
         <Spacer />
-        <Icon as={BiDotsHorizontalRounded} boxSize={6} />
+        <Icon as={BiDotsHorizontalRounded} boxSize={6} _hover={{ bg: "red" }} />
       </Flex>
     </Flex>
   );
