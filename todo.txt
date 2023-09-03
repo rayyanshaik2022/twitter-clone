@@ -1,11 +1,11 @@
 TODOS
 
 * EDIT PROFILE : open popup that allows you to just change fields
-
-* Trending and who to follow
 * Optimize feed
+* Following feed
 * hashtags & functionality
-* Log out functionality
+* Complete mobile responsiveness
+
 
 DONE
 *Sidebar have @username correct at bottom left
@@ -13,3 +13,7 @@ DONE
 * Like posts
 * Comment posts
 * Dynamic urls for posts (/username/postid)
+* Fix like spamming calls
+* Log out functionality
+* Trending and who to follow
+* Full desktop site responsiveness

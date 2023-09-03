@@ -115,7 +115,7 @@ function HomePost(props) {
     const likePost = httpsCallable(functions, "likePost");
     const result = await likePost({
       post: { id: props.id },
-      author: { id: props.user.id },
+      author: { id: props.user.uid },
     });
   };
 
