@@ -38,6 +38,7 @@ function ProfileFeed(props) {
         });
       });
 
+      newPosts.sort((post1, post2) =>  post2.datePosted - post1.datePosted)
       setPosts(newPosts);
     };
 
