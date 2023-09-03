@@ -5,22 +5,6 @@ import { useNavigate } from "react-router-dom";
 function TextContent(props) {
   const navigate = useNavigate();
 
-  const splitByAtWords = (str) => {
-    if (!str) {
-      return [];
-    }
-    const regex = /(@\w+)/g;
-    return str.split(regex);
-  };
-
-  const splitByHashWords = (str) => {
-    if (!str) {
-      return [];
-    }
-    const regex = /(#\w+)/g;
-    return str.split(regex);
-  };
-
   const splitBoth = (str) => {
     if (!str) {
       return [];

@@ -14,6 +14,14 @@ function generateString(length) {
   return result;
 }
 
+const splitByHashAndAt = (str) => {
+  if (!str) {
+    return [];
+  }
+  const regex = /(@\w+|#\w+)|(\S+)/g;
+  return str.split(regex);
+};
+
 // auth trigger (new user signup)
 exports.newUserSignUp = functions.auth.user().onCreate((user) => {
   // for background triggers you must return a value/promise
@@ -121,6 +129,37 @@ exports.newPost = functions.https.onCall(async (data, context) => {
       posts: admin.firestore.FieldValue.arrayUnion(postRef.id),
     });
 
+  const splitText = splitByHashAndAt(data.textContent);
+  for (i in splitText) {
+    let word = splitText[i];
+    if (word && word.startsWith("#")) {
+      let docRef = await admin
+        .firestore()
+        .collection("Hashtags")
+        .doc(word)
+        .get();
+      if (docRef && docRef.exists) {
+        let hashRef = await admin
+          .firestore()
+          .collection("Hashtags")
+          .doc(word)
+          .update({
+            hashtag: word,
+            posts: admin.firestore.FieldValue.arrayUnion(postRef.id),
+          });
+      } else {
+        let hashRef = await admin
+          .firestore()
+          .collection("Hashtags")
+          .doc(word)
+          .set({
+            hashtag: word,
+            posts: [postRef.id],
+          });
+      }
+    }
+  }
+
   return {
     id: postRef.id,
     authorId: data.author.id,
@@ -150,7 +189,6 @@ exports.likePost = functions.https.onCall(async (data, context) => {
     .collection("Users")
     .doc(context.auth.uid)
     .get();
-  functions.logger.log(userRef);
   const userData = userRef.data();
 
   // Unlike post
