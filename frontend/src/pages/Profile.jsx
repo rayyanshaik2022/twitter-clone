@@ -218,7 +218,7 @@ function Profile() {
           </Flex>
           <ProfileFeed user={user} />
         </Box>
-        <HomeRightSideBar />
+        <HomeRightSideBar user={user}/>
       </Grid>
     </>
   );

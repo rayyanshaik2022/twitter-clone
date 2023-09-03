@@ -33,6 +33,7 @@ exports.newUserSignUp = functions.auth.user().onCreate((user) => {
       photoURL: user.photoURL,
       following: [],
       followers: [],
+      usernameChange: false
     });
 });
 

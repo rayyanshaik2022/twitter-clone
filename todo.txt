@@ -5,6 +5,7 @@ TODOS
 * Trending and who to follow
 * Optimize feed
 * hashtags & functionality
+* Log out functionality
 
 DONE
 *Sidebar have @username correct at bottom left

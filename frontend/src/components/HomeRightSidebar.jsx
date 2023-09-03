@@ -5,7 +5,7 @@ import { BiSearch } from "react-icons/bi";
 import TrendsPanel from "./TrendsPanel";
 import SuggestFollowPanel from "./SuggestFollowPanel";
 
-function HomeRightSideBar() {
+function HomeRightSideBar(props) {
   return (
     <Flex
       ml={"40px"}
@@ -45,8 +45,8 @@ function HomeRightSideBar() {
           pos={"sticky"} top={0}
         />
       </InputGroup>
-      <TrendsPanel />
-      <SuggestFollowPanel />
+      <TrendsPanel  />
+      <SuggestFollowPanel user={props.user}/>
     </Flex>
   );
 }
