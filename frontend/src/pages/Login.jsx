@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 
 import { auth, provider } from "../firebase";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 import { FaTwitter } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -21,13 +21,6 @@ function Login() {
     e.preventDefault();
     signInWithPopup(auth, provider)
       .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        // The signed-in user info.
-        const user = result.user;
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...'
         navigate("/home");
       })
       .catch((error) => {
@@ -44,14 +37,14 @@ function Login() {
           border={"1px solid"}
           borderColor={"gray.200"}
           borderRadius={"50px"}
-          px={20}
-          py={32}
+          px={{base: 8, lg: 20}}
+          py={{base: 20, lg: 32}}
         >
           <Icon as={FaTwitter} boxSize={14} color={"blue.300"} />
           <Heading>Log in to Twitter</Heading>
           <Button
             mt={6}
-            w={"320px"}
+            w={{base: "240px", lg: "320px"}}
             variant={"outline"}
             leftIcon={<FcGoogle />}
             borderRadius={"100px"}

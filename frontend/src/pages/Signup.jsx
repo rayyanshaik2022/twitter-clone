@@ -11,7 +11,7 @@ import {
 import { useMediaQuery } from "@chakra-ui/react";
 
 import { auth, provider } from "../firebase";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 import { FaTwitter } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
