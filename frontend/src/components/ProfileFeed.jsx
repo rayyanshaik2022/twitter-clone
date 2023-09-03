@@ -47,7 +47,6 @@ function ProfileFeed(props) {
 
   return (
     <>
-      {" "}
       {props.user
         ? posts.map((post) =>
             post.id ? (

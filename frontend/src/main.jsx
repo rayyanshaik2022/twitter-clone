@@ -24,20 +24,24 @@ const router = createBrowserRouter([
   },
   {
     path: "/profile",
-    element: <App page="profile" />
+    element: <App page="profile" />,
   },
   {
     path: "/profile/:username",
-    element: <App page="profile" />
+    element: <App page="profile" />,
   },
   {
     path: "/:username/status/:postid",
-    element: <App page="post" />
+    element: <App page="post" />,
+  },
+  {
+    path: "/hashtag/:hashtag",
+    element: <App page="hashtag" />,
   },
   {
     path: "*",
-    element: <App page="home"/>
-  }
+    element: <App page="home" />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

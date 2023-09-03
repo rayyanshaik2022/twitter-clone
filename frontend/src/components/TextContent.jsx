@@ -25,7 +25,10 @@ function TextContent(props) {
           display={"inline"}
           key={text + index}
           fontSize={18}
-          onClick={() => navigate(`/profile/${text.substring(1)}`)}
+          onClick={() => {
+            navigate(`/profile/${text.substring(1)}`);
+            window.location.reload();
+          }}
         >
           {text}
         </Link>
@@ -39,7 +42,10 @@ function TextContent(props) {
           display={"inline"}
           key={text + index}
           fontSize={18}
-          onClick={() => navigate(`/hashtag/${text.substring(1)}`)}
+          onClick={() => {
+            navigate(`/hashtag/${text.substring(1)}`);
+            window.location.reload();
+          }}
         >
           {text}
         </Link>
