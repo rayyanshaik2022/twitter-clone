@@ -8,13 +8,10 @@ import {
   VStack,
   HStack,
   Icon,
-  Button,
   keyframes,
   useToast,
 } from "@chakra-ui/react";
 
-import { auth } from "../firebase";
-import { onAuthStateChanged } from "firebase/auth";
 import {
   getDoc,
   doc,
@@ -35,7 +32,7 @@ import HomeRightSideBar from "../components/HomeRightSidebar";
 import PostMakeComment from "../components/PostMakeComment";
 import CommentFeed from "../components/CommentFeed";
 
-import { BiComment, BiHeart, BiLinkAlt } from "react-icons/bi";
+import { BiComment, BiLinkAlt } from "react-icons/bi";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { getFunctions, httpsCallable } from "firebase/functions";
 
@@ -148,7 +145,7 @@ function Post() {
     // Make like request to cloud functions here
     const functions = getFunctions();
     const likePost = httpsCallable(functions, "likePost");
-    const result = await likePost({
+    await likePost({
       post: { id: postid },
       author: { id: user.uid },
     });

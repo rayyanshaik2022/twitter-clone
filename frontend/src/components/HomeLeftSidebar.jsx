@@ -8,6 +8,10 @@ import {
   Box,
   Spacer,
   Image,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
 } from "@chakra-ui/react";
 
 import { FaTwitter } from "react-icons/fa";
@@ -36,13 +40,13 @@ function HomeLeftSidebar(props) {
       left: 0,
       behavior: "smooth",
     });
-    navigate("/home")
-    document.getElementsByClassName("post-input")[0].focus()
+    navigate("/home");
+    document.getElementsByClassName("post-input")[0].focus();
   };
 
   const navigateProfile = () => {
-    navigate("/profile")
-  }
+    navigate("/profile");
+  };
 
   return (
     <Flex
@@ -172,11 +176,13 @@ function HomeLeftSidebar(props) {
               bg={"blue.200"}
             ></Box>
           )}
-          <VStack alignItems={"start"} gap={0}>
+          <VStack alignItems={"start"} gap={0} pos={"relative"}>
             <Text fontWeight={"600"}>
               {authUser ? authUser.displayName : "DISPLAY NAME"}
             </Text>
-            <Text color={"gray.500"}>@{props.user ? props.user.username : "USERNAME"}</Text>
+            <Text color={"gray.500"}>
+              @{props.user ? props.user.username : "USERNAME"}
+            </Text>
           </VStack>
         </HStack>
         <Spacer />

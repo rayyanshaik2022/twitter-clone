@@ -1,7 +1,6 @@
-import { Grid, Flex, Text, Box, Heading } from "@chakra-ui/react";
+import { Grid, Box, Heading } from "@chakra-ui/react";
 
-import { auth, useFirestore } from "../firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import { useFirestore } from "../firebase";
 import { getDoc, doc } from "firebase/firestore";
 
 import { useState, useEffect } from "react";
@@ -31,7 +30,7 @@ function Home() {
         }
 
         const userData = docSnap.data();
-        setUser({...userData, id: docRefUser.id});
+        setUser({ ...userData, id: docRefUser.id });
       } catch (e) {
         console.log("ERROR", e);
       }
@@ -78,7 +77,7 @@ function Home() {
           <HomeMakeTweet pushPost={pushPost} setPushPost={setPushPost} />
           <HomeFeed pushPost={pushPost} setPushPost={setPushPost} user={user} />
         </Box>
-        <HomeRightSideBar user={user} setUser={setUser}/>
+        <HomeRightSideBar user={user} setUser={setUser} />
       </Grid>
     </>
   );
