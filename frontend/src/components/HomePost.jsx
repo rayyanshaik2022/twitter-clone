@@ -62,6 +62,7 @@ function HomePost(props) {
   const [user, setUser] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState(props.likes);
+  const [lastLike, setLastLike] = useState(new Date());
   const navigate = useNavigate();
   const db = useFirestore();
   const toast = useToast();
@@ -98,8 +99,16 @@ function HomePost(props) {
 
   const handleClickLikePost = async () => {
     setIsLiked(!isLiked);
+    let timeClicked = new Date();
 
     isLiked ? setLikes(likes - 1) : setLikes(likes + 1);
+
+    if (timeClicked - lastLike < 1200) {
+      console.log("Limited like, user is liking too fast!")
+      return;
+    }
+
+    setLastLike(timeClicked);
 
     // Make like request to cloud functions here
     const functions = getFunctions();

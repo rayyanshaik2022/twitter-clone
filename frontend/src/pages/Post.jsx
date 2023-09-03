@@ -57,6 +57,7 @@ function Post() {
   const [user, setUser] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState(0);
+  const [lastLike, setLastLike] = useState(new Date())
   const [pushComment, setPushComment] = useState(null);
   const db = useFirestore();
   const toast = useToast();
@@ -144,6 +145,17 @@ function Post() {
     setIsLiked(!isLiked);
 
     isLiked ? setLikes(likes - 1) : setLikes(likes + 1);
+
+    let timeClicked = new Date();
+
+    isLiked ? setLikes(likes - 1) : setLikes(likes + 1);
+
+    if (timeClicked - lastLike < 1200) {
+      console.log("Limited like, user is liking too fast!")
+      return;
+    }
+
+    setLastLike(timeClicked);
 
     // Make like request to cloud functions here
     const functions = getFunctions();
