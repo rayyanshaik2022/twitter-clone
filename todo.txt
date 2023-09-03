@@ -17,3 +17,4 @@ DONE
 * Log out functionality
 * Trending and who to follow
 * Full desktop site responsiveness
+* User tagging in post (@username -> profile)

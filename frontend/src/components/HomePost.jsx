@@ -19,6 +19,8 @@ import { getDoc, doc } from "firebase/firestore";
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { transform } from "framer-motion";
 
+import TextContent from "./TextContent";
+
 function timeSince(date) {
   var seconds = Math.floor((new Date() - date) / 1000);
 
@@ -210,9 +212,7 @@ function HomePost(props) {
                   " ago"}
             </Heading>
           </HStack>
-          <Text justifyContent={"start"} w={"100%"}>
-            {props.textContent}
-          </Text>
+          <TextContent text={props.textContent} />
           <HStack
             w={"90%"}
             justifyContent={"space-between"}

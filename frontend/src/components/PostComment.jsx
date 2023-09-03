@@ -12,6 +12,8 @@ import { useFirestore } from "../firebase";
 import { getDoc, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
+import TextContent from "./TextContent";
+
 function timeSince(date) {
   var seconds = Math.floor((new Date() - date) / 1000);
 
@@ -127,9 +129,8 @@ function PostComment(props) {
               } ago
             </Heading>
           </HStack>
-          <Text justifyContent={"start"} w={"100%"}>
-            {props.comment.textContent}
-          </Text>
+
+          <TextContent text={props.comment.textContent} />
         </VStack>
       </HStack>
     </Flex>

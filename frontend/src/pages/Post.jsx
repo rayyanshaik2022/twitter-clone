@@ -22,6 +22,8 @@ import {
   collection,
 } from "firebase/firestore";
 
+import TextContent from "../components/TextContent";
+
 import { useState, useEffect } from "react";
 import { useUser } from "../hooks/useUser";
 import { useFirestore } from "../firebase";
@@ -269,9 +271,7 @@ function Post() {
                 </Text>
               </VStack>
             </HStack>
-            <Text justifyContent={"start"} w={"100%"}>
-              {post.textContent}
-            </Text>
+            <TextContent text={post.textContent} />
 
             <HStack>
               <Text color={"gray.600"}>
