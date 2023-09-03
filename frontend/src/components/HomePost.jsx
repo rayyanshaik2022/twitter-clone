@@ -93,11 +93,10 @@ function HomePost(props) {
     if (!props.user) {
       return;
     }
-
     if (props.user.liked.includes(props.id)) {
       setIsLiked(true);
     }
-  }, [props.user]);
+  }, [props.user, props.id]);
 
   const handleClickLikePost = async () => {
     setIsLiked(!isLiked);
@@ -107,6 +106,10 @@ function HomePost(props) {
 
     if (timeClicked - lastLike < 1200) {
       console.log("Limited like, user is liking too fast!")
+      return;
+    }
+    
+    if (!props.user) {
       return;
     }
 

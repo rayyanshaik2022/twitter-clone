@@ -24,7 +24,6 @@ function TrendsPanel() {
         newHashtags.push(doc.data());
       });
 
-      console.log(newHashtags)
       setHashtags(newHashtags);
     };
 

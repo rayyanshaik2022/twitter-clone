@@ -382,7 +382,7 @@ function HomeLeftSidebar(props) {
           </VStack>
         </HStack>
         <Spacer />
-        <Icon as={BiDotsHorizontalRounded} boxSize={6} _hover={{ bg: "red" }} />
+        <Icon as={BiDotsHorizontalRounded} boxSize={6} />
       </Flex>
     </Flex>
   );

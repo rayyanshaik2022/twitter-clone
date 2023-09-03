@@ -1,4 +1,14 @@
-import { Grid, Box, Heading, useMediaQuery } from "@chakra-ui/react";
+import {
+  Grid,
+  Box,
+  Heading,
+  useMediaQuery,
+  Tabs,
+  TabPanel,
+  TabList,
+  Tab,
+  TabPanels,
+} from "@chakra-ui/react";
 
 import { useFirestore } from "../firebase";
 import { getDoc, doc } from "firebase/firestore";
@@ -11,11 +21,13 @@ import HomeLeftSidebar from "../components/HomeLeftSidebar";
 import HomeRightSideBar from "../components/HomeRightSidebar";
 import HomeMakeTweet from "../components/HomeMakeTweet";
 import HomeFeed from "../components/HomeFeed";
+import HomeFollowingFeed from "../components/HomeFollowingFeed";
 
 function Home() {
   const { authUser } = useUser();
   const [pushPost, setPushPost] = useState(null);
   const [user, setUser] = useState(null);
+  const [feed, setFeed] = useState("for-you");
 
   const [isLargerThan1280W] = useMediaQuery("(min-width: 1280px)");
   const [isLargerThan1020W] = useMediaQuery("(min-width: 1020px)");
@@ -85,9 +97,39 @@ function Home() {
             <Heading as={"h1"} size={"md"}>
               Home
             </Heading>
+            <Tabs>
+              <TabList w={"100%"}>
+                <Tab
+                  w={"50%"}
+                  fontWeight={"600"}
+                  onClick={() => setFeed("for-you")}
+                >
+                  For you
+                </Tab>
+                <Tab
+                  w={"50%"}
+                  fontWeight={"600"}
+                  onClick={() => setFeed("following")}
+                >
+                  Following
+                </Tab>
+              </TabList>
+            </Tabs>
           </Box>
           <HomeMakeTweet pushPost={pushPost} setPushPost={setPushPost} />
-          <HomeFeed pushPost={pushPost} setPushPost={setPushPost} user={user} />
+          {feed == "for-you" ? (
+            <HomeFeed
+              pushPost={pushPost}
+              setPushPost={setPushPost}
+              user={user}
+            />
+          ) : (
+            <HomeFollowingFeed
+              pushPost={pushPost}
+              setPushPost={setPushPost}
+              user={user}
+            />
+          )}
         </Box>
 
         {isLargerThan1020W ? (

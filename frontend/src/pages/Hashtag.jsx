@@ -36,11 +36,6 @@ function Hashtag() {
       try {
         const docRefUser = doc(db, "Users", authUser.uid);
         const docSnap = await getDoc(docRefUser);
-
-        if (!docSnap.exists()) {
-          return;
-        }
-
         const userData = docSnap.data();
         setUser({ ...userData, id: docRefUser.id });
       } catch (e) {
@@ -87,7 +82,7 @@ function Hashtag() {
             </Heading>
           </Box>
 
-          <HashtagFeed hashtag={hashtag} />
+          <HashtagFeed hashtag={hashtag} user={user} />
         </Box>
 
         {isLargerThan1020W ? (
