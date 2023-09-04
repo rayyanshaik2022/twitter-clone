@@ -39,18 +39,18 @@ Visually, I tried my best to make the website a 1:1 copy of twitter. Functionall
 
 Some buttons appear for visual purposes only and may not have a feature behind them (as of writing this). For example, the "notification" and "bookmark" icons are both visable, yet do not currently support their intended features (yet).
 
-#### Time spent developing
+### Time spent developing
 
 __Time Frame__ : 08/30/2023 to 09/04/2023
 
 __Hours Developing__: ~18 hours
 
 
-#### Running this project
+### Running this project
 
-##### [Live Demo Link](https://twitter-clone-20n.pages.dev/)
+#### [Live Demo Link](https://twitter-clone-20n.pages.dev/)
 
-##### Steps to run locally
+#### Steps to run locally
 
 npm (node package manager) is required
 
