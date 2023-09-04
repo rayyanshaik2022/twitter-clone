@@ -132,7 +132,7 @@ function HomePost(props) {
 
   const linkCopiedToast = () => {
     navigator.clipboard.writeText(
-      "http://localhost:5173/" + props.authorUsername + "/status/" + props.id
+      "https://twitter-clone-20n.pages.dev/" + props.authorUsername + "/status/" + props.id
     );
     toast({
       position: "bottom-center",

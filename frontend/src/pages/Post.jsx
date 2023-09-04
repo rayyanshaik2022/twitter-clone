@@ -170,7 +170,7 @@ function Post() {
 
   const linkCopiedToast = () => {
     navigator.clipboard.writeText(
-      "http://localhost:5173/" + author.username + "/status/" + postid
+      "https://twitter-clone-20n.pages.dev/" + author.username + "/status/" + postid
     );
     toast({
       position: "bottom-center",
