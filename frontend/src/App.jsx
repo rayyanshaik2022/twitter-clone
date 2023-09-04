@@ -6,32 +6,22 @@ import Post from "./pages/Post";
 import Hashtag from "./pages/Hashtag";
 
 function App(props) {
-
-  if (props.page == "sign-up") {
-    return <Signup />;
+  switch (props.page) {
+    case "sign-up":
+      return <Signup />;
+    case "log-in":
+      return <Login />;
+    case "home":
+      return <Home />;
+    case "profile":
+      return <Profile />;
+    case "post":
+      return <Post />;
+    case "hashtag":
+      return <Hashtag />;
+    default:
+      return <>Default</>;
   }
-
-  if (props.page == "log-in") {
-    return <Login />;
-  }
-
-  if (props.page == "home") {
-    return <Home />;
-  }
-
-  if (props.page == "profile") {
-    return <Profile/>
-  }
-
-  if (props.page == "post") {
-    return <Post />
-  }
-  
-  if (props.page == "hashtag") {
-    return <Hashtag />
-  }
-
-  return <></>;
 }
 
 export default App;

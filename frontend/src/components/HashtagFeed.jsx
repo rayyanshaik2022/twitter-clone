@@ -1,11 +1,14 @@
+// Chakra UI imports
 import { Flex, Heading } from "@chakra-ui/react";
-import {
-  doc,
-  getDoc,
-} from "firebase/firestore";
+
+// Firebase imports
+import { doc, getDoc } from "firebase/firestore";
+
+// Hook imports
 import { useEffect, useState } from "react";
 import { useFirestore } from "../firebase";
 
+// Component imports
 import HomePost from "./HomePost";
 
 function HashtagFeed(props) {

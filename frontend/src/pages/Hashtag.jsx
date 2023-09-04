@@ -1,16 +1,20 @@
-import { Grid, Box, Heading, useMediaQuery } from "@chakra-ui/react";
+// Chakra UI imports
+import { Grid, Box, Heading } from "@chakra-ui/react";
 
-import { useFirestore } from "../firebase";
+// Firebase imports
 import { getDoc, doc } from "firebase/firestore";
 
+// Hook imports
+import { useFirestore } from "../firebase";
+import { useMediaQuery } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useUser } from "../hooks/useUser";
+import { useParams } from "react-router-dom";
 
-// Import components
+// Component imports
 import HomeLeftSidebar from "../components/HomeLeftSidebar";
 import HomeRightSideBar from "../components/HomeRightSidebar";
 import HashtagFeed from "../components/HashtagFeed";
-import { useParams } from "react-router-dom";
 
 function Hashtag() {
   const { authUser } = useUser();

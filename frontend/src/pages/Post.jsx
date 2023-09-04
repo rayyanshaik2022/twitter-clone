@@ -1,3 +1,4 @@
+// Chakra UI imports
 import {
   Grid,
   Flex,
@@ -13,6 +14,7 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 
+// Firebase imports
 import {
   getDoc,
   doc,
@@ -21,23 +23,24 @@ import {
   where,
   collection,
 } from "firebase/firestore";
+import { getFunctions, httpsCallable } from "firebase/functions";
 
-import TextContent from "../components/TextContent";
+// Icon imports
+import { BiComment, BiLinkAlt } from "react-icons/bi";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
+// Hook imports
 import { useState, useEffect } from "react";
 import { useUser } from "../hooks/useUser";
 import { useFirestore } from "../firebase";
 import { useNavigate, useParams } from "react-router-dom";
 
-// Import components
+// Component imports
 import HomeLeftSidebar from "../components/HomeLeftSidebar";
 import HomeRightSideBar from "../components/HomeRightSidebar";
 import PostMakeComment from "../components/PostMakeComment";
 import CommentFeed from "../components/CommentFeed";
-
-import { BiComment, BiLinkAlt } from "react-icons/bi";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { getFunctions, httpsCallable } from "firebase/functions";
+import TextContent from "../components/TextContent";
 
 const likeAnimation = keyframes`
   0% {
@@ -170,7 +173,10 @@ function Post() {
 
   const linkCopiedToast = () => {
     navigator.clipboard.writeText(
-      "https://twitter-clone-20n.pages.dev/" + author.username + "/status/" + postid
+      "https://twitter-clone-20n.pages.dev/" +
+        author.username +
+        "/status/" +
+        postid
     );
     toast({
       position: "bottom-center",

@@ -1,6 +1,10 @@
+// Chakra UI imports
 import { HStack, Image, VStack, Text, Spacer, Button } from "@chakra-ui/react";
+
+// Firebase imports
 import { getFunctions, httpsCallable } from "firebase/functions";
 
+// Hook imports
 import { useState } from "react";
 
 function FollowUserCard(props) {
@@ -13,7 +17,7 @@ function FollowUserCard(props) {
 
     const functions = getFunctions();
     const followUser = httpsCallable(functions, "followUser");
-    const result = await followUser({
+    await followUser({
       user: { uid: props.user.uid },
     });
 

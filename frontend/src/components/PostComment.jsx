@@ -1,17 +1,22 @@
+// Chakra UI imports
 import {
   Flex,
   HStack,
   VStack,
   Box,
-  Text,
   Heading,
   Image,
 } from "@chakra-ui/react";
+
+// Hook imports
 import { useEffect, useState } from "react";
 import { useFirestore } from "../firebase";
-import { getDoc, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
+// Firebase imports
+import { getDoc, doc } from "firebase/firestore";
+
+// Compoent imports
 import TextContent from "./TextContent";
 
 function timeSince(date) {

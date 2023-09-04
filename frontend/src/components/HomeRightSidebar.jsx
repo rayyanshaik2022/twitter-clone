@@ -1,12 +1,20 @@
-import { Flex, Input, InputGroup, InputLeftElement, useMediaQuery } from "@chakra-ui/react";
+// Chakra UI imports
+import {
+  Flex,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  useMediaQuery,
+} from "@chakra-ui/react";
 
+// Icon imports
 import { BiSearch } from "react-icons/bi";
 
+// Component imports
 import TrendsPanel from "./TrendsPanel";
 import SuggestFollowPanel from "./SuggestFollowPanel";
 
 function HomeRightSideBar(props) {
-
   const [isLargerThan1280W] = useMediaQuery("(min-width: 1280px)");
   return (
     <Flex
@@ -44,11 +52,12 @@ function HomeRightSideBar(props) {
           size={"lg"}
           bg={"gray.100"}
           focusBorderColor="blue.300"
-          pos={"sticky"} top={0}
+          pos={"sticky"}
+          top={0}
         />
       </InputGroup>
-      <TrendsPanel  />
-      <SuggestFollowPanel user={props.user} setUser={props.setUser}/>
+      <TrendsPanel />
+      <SuggestFollowPanel user={props.user} setUser={props.setUser} />
     </Flex>
   );
 }

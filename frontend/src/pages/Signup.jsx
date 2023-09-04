@@ -1,3 +1,4 @@
+// Chakra UI imports
 import {
   Grid,
   Flex,
@@ -8,28 +9,25 @@ import {
   Center,
   Link,
 } from "@chakra-ui/react";
-import { useMediaQuery } from "@chakra-ui/react";
 
+// Firebase imports
 import { auth, provider } from "../firebase";
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { signInWithPopup } from "firebase/auth";
 
+// Hook imports
+import { useMediaQuery } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+
+// Icon imports
 import { FaTwitter } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { useNavigate } from "react-router-dom";
 
 function Signup() {
   const navigate = useNavigate();
   const onClickSignUp = (e) => {
     e.preventDefault();
     signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        // The signed-in user info.
-        const user = result.user;
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...'
+      .then(() => {
         navigate("/home");
       })
       .catch((error) => {

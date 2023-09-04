@@ -1,3 +1,4 @@
+// Chakra UI imports
 import {
   Flex,
   HStack,
@@ -10,11 +11,18 @@ import {
   Image,
   useOutsideClick,
 } from "@chakra-ui/react";
+
+// Hook imports
 import { useEffect, useRef, useState } from "react";
 
+// Icon imports
 import { BiImage, BiSmile } from "react-icons/bi";
+
+// External library imports
 import EmojiPicker from "emoji-picker-react";
 import autosize from "autosize";
+
+// Firebase imports
 import { getFunctions, httpsCallable } from "firebase/functions";
 
 function PostMakeComment(props) {

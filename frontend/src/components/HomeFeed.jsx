@@ -1,9 +1,12 @@
-import HomePost from "./HomePost";
+// Firebase imports
+import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
 
-import { collection, getDocs } from "firebase/firestore";
-import { query, orderBy, limit } from "firebase/firestore";
-import { useEffect, useState, useMemo } from "react";
+// Hook imports
+import { useEffect, useState } from "react";
 import { useFirestore } from "../firebase";
+
+// Compoent imports
+import HomePost from "./HomePost";
 
 function HomeFeed(props) {
   const [posts, setPosts] = useState([]);

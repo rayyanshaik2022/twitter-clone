@@ -1,4 +1,7 @@
+// Chakra UI imports
 import { Text, Flex, Link, useMediaQuery } from "@chakra-ui/react";
+
+// Hook imports
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 

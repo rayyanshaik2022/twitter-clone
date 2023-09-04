@@ -1,11 +1,12 @@
-import {
-  Flex,
-  Heading,
-  Text,
-} from "@chakra-ui/react";
+// Chakra UI imports
+import { Flex, Heading, Text } from "@chakra-ui/react";
 
+// Hook imports
 import { useEffect, useState } from "react";
+import { useFirestore } from "../firebase";
+import { useUser } from "../hooks/useUser";
 
+// Firebase imports
 import {
   query,
   getDocs,
@@ -14,9 +15,8 @@ import {
   documentId,
   limit,
 } from "firebase/firestore";
-import { useFirestore } from "../firebase";
-import { useUser } from "../hooks/useUser";
 
+// Component imports
 import FollowUserCard from "./FollowUserCard";
 
 function SuggestFollowPanel(props) {
@@ -49,9 +49,8 @@ function SuggestFollowPanel(props) {
     getData();
   }, [props.user, authUser]);
 
-
   if (!props.user) {
-    return <>Loading...</>
+    return <>Loading...</>;
   }
 
   return (
@@ -66,14 +65,19 @@ function SuggestFollowPanel(props) {
       <Heading as={"h1"} fontSize={"2xl"} fontWeight={700}>
         Who to follow
       </Heading>
-      {
-        users.map((user, index) => user.username && index < 4 ? (
-          <FollowUserCard user={user} authUser={props.user} setAuthUser={props.setUser} key={user.username} />
-        ) : (null))
-      }
-      {
-        users.length < 1 || !users[0].username ? (<Text size={"sm"}>No suggested users!</Text>) : null
-      }
+      {users.map((user, index) =>
+        user.username && index < 4 ? (
+          <FollowUserCard
+            user={user}
+            authUser={props.user}
+            setAuthUser={props.setUser}
+            key={user.username}
+          />
+        ) : null
+      )}
+      {users.length < 1 || !users[0].username ? (
+        <Text size={"sm"}>No suggested users!</Text>
+      ) : null}
     </Flex>
   );
 }

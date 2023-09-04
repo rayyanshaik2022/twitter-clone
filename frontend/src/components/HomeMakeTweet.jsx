@@ -1,3 +1,4 @@
+// Chakra UI imports
 import {
   Flex,
   HStack,
@@ -10,18 +11,22 @@ import {
   Image,
   useOutsideClick,
 } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
-import autosize from "autosize";
-import { BiImage, BiSmile } from "react-icons/bi";
 
-import { auth, useFirestore } from "../firebase";
+// Hook imports
+import { useEffect, useRef, useState } from "react";
+import { useFirestore } from "../firebase";
 import { useUser } from "../hooks/useUser";
 
-import { collection, addDoc } from "firebase/firestore";
+// External library imports
+import autosize from "autosize";
+import EmojiPicker from "emoji-picker-react";
+
+// Icon imports
+import { BiImage, BiSmile } from "react-icons/bi";
+
+// Firebase imports
 import { doc, getDoc } from "firebase/firestore";
 import { getFunctions, httpsCallable } from "firebase/functions";
-
-import EmojiPicker from "emoji-picker-react";
 
 function HomeMakeTweet(props) {
   const ref = useRef();
@@ -47,10 +52,6 @@ function HomeMakeTweet(props) {
 
   const onChangePostInput = (e) => {
     setPostInput(e.target.value);
-  };
-
-  const randomNumber = (max, min) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
   const postTweet = async () => {

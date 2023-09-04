@@ -1,3 +1,4 @@
+// Chakra UI imports
 import {
   Grid,
   Flex,
@@ -14,11 +15,7 @@ import {
   FormControl,
   FormLabel,
   Input,
-  FormHelperText,
   FormErrorMessage,
-} from "@chakra-ui/react";
-
-import {
   Modal,
   ModalOverlay,
   ModalContent,
@@ -28,6 +25,7 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 
+// Firebase imports
 import {
   getDoc,
   doc,
@@ -36,20 +34,22 @@ import {
   where,
   collection,
 } from "firebase/firestore";
+import { getFunctions, httpsCallable } from "firebase/functions";
 
+// Hook imports
 import { useState, useEffect } from "react";
 import { useUser } from "../hooks/useUser";
 import { useFirestore } from "../firebase";
 import { useParams } from "react-router-dom";
+import { useMemo } from "react";
 
-// Import components
+// Component imports
 import HomeLeftSidebar from "../components/HomeLeftSidebar";
 import HomeRightSideBar from "../components/HomeRightSidebar";
 import ProfileFeed from "../components/ProfileFeed";
 
+// Icon imports
 import { BiCalendarHeart, BiLocationPlus } from "react-icons/bi";
-import { useMemo } from "react";
-import { getFunctions, httpsCallable } from "firebase/functions";
 
 function Profile() {
   const { authUser } = useUser();
@@ -96,7 +96,6 @@ function Profile() {
       displayName: profileDisplayName,
       location: profileLocation,
     });
-    console.log(result);
     setSaveProfileIsLoading(false);
     onClose();
 

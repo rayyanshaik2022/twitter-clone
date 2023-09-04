@@ -1,3 +1,4 @@
+// Chakra UI imports
 import {
   Flex,
   Icon,
@@ -11,6 +12,7 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 
+// Icon imports
 import { FaTwitter } from "react-icons/fa";
 import {
   BiSolidHomeCircle,
@@ -25,10 +27,13 @@ import {
 import { CgMoreO } from "react-icons/cg";
 import { RiQuillPenLine } from "react-icons/ri";
 
+// Hook imports
 import { useUser } from "../hooks/useUser";
 import { useNavigate } from "react-router-dom";
+
+// Firebase imports
 import { signOut } from "firebase/auth";
-import { auth, provider } from "../firebase";
+import { auth } from "../firebase";
 
 function scrollTo(offset, callback) {
   const fixedOffset = offset.toFixed();

@@ -1,9 +1,7 @@
 TODOS
-
-* EDIT PROFILE : open popup that allows you to just change fields
 * Optimize feed -> UseMemo?
 
-* Complete mobile responsiveness
+
 
 
 DONE
@@ -19,3 +17,5 @@ DONE
 * User tagging in post (@username -> profile)
 * hashtags & functionality
 * Following feed
+* Complete mobile responsiveness
+* EDIT PROFILE : open popup that allows you to just change fields

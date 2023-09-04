@@ -1,16 +1,15 @@
+// Chakra UI imports
 import { Flex, Heading } from "@chakra-ui/react";
-import {
-  query,
-  where,
-  getDocs,
-  collection,
-  limit,
-} from "firebase/firestore";
+
+// Firebase imports
+import { query, where, getDocs, collection, limit } from "firebase/firestore";
+
+// Hook imports
 import { useEffect, useState } from "react";
 import { useFirestore } from "../firebase";
 
+// Component imports
 import HomePost from "./HomePost";
-
 
 function ProfileFeed(props) {
   const [posts, setPosts] = useState([]);
@@ -38,7 +37,7 @@ function ProfileFeed(props) {
         });
       });
 
-      newPosts.sort((post1, post2) =>  post2.datePosted - post1.datePosted)
+      newPosts.sort((post1, post2) => post2.datePosted - post1.datePosted);
       setPosts(newPosts);
     };
 
@@ -47,19 +46,19 @@ function ProfileFeed(props) {
 
   return (
     <>
-      {props.user
-        ? posts.map((post) =>
-            post.id ? (
-              <HomePost key={post.id} {...post} user={props.user}/>
-            ) : (
-              <HomePost key={post.newClientId} {...post} user={props.user}/>
-            )
+      {props.user ? (
+        posts.map((post) =>
+          post.id ? (
+            <HomePost key={post.id} {...post} user={props.user} />
+          ) : (
+            <HomePost key={post.newClientId} {...post} user={props.user} />
           )
-        : (
-          <Flex py={12} align={"center"} justify={"center"}>
-            <Heading size={"lg"}>This account does not exist.</Heading>
-          </Flex>
-        )}
+        )
+      ) : (
+        <Flex py={12} align={"center"} justify={"center"}>
+          <Heading size={"lg"}>This account does not exist.</Heading>
+        </Flex>
+      )}
     </>
   );
 }

@@ -1,6 +1,8 @@
+// Hook imports
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+// Firebase imports
 import { auth } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 

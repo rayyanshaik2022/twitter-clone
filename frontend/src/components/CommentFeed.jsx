@@ -1,7 +1,11 @@
+// Hook imports
 import { useEffect, useState } from "react";
 import { useFirestore } from "../firebase";
+
+// Firebase imports
 import { query, where, getDocs, collection, limit } from "firebase/firestore";
 
+// Component imports
 import PostComment from "./PostComment";
 
 function CommentFeed(props) {

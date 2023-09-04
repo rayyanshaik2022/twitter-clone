@@ -1,3 +1,4 @@
+// Chakra UI imports
 import {
   Flex,
   HStack,
@@ -11,14 +12,19 @@ import {
   useToast,
   useMediaQuery,
 } from "@chakra-ui/react";
+
+// Hook imports
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { BiComment, BiHeart, BiLinkAlt } from "react-icons/bi";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { useFirestore } from "../firebase";
+
+// Icon imports
+import { BiComment, BiLinkAlt } from "react-icons/bi";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+
+// Firebase imports
 import { getDoc, doc } from "firebase/firestore";
 import { getFunctions, httpsCallable } from "firebase/functions";
-import { transform } from "framer-motion";
 
 import TextContent from "./TextContent";
 
@@ -120,7 +126,7 @@ function HomePost(props) {
     // Make like request to cloud functions here
     const functions = getFunctions();
     const likePost = httpsCallable(functions, "likePost");
-    const result = await likePost({
+    await likePost({
       post: { id: props.id },
       author: { id: props.user.uid },
     });
@@ -132,7 +138,10 @@ function HomePost(props) {
 
   const linkCopiedToast = () => {
     navigator.clipboard.writeText(
-      "https://twitter-clone-20n.pages.dev/" + props.authorUsername + "/status/" + props.id
+      "https://twitter-clone-20n.pages.dev/" +
+        props.authorUsername +
+        "/status/" +
+        props.id
     );
     toast({
       position: "bottom-center",

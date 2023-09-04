@@ -1,8 +1,14 @@
+// Chakra UI imports
 import { Flex, VStack, Heading, Text } from "@chakra-ui/react";
+
+// Firebase imports
 import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
+
+// Hook imports
 import { useEffect, useState } from "react";
 import { useFirestore } from "../firebase";
 import { useNavigate } from "react-router-dom";
+
 function TrendsPanel() {
   const [hashtags, setHashtags] = useState([]);
   const db = useFirestore();
@@ -42,25 +48,29 @@ function TrendsPanel() {
       <Heading as={"h1"} fontSize={"2xl"} fontWeight={700}>
         {"What's Happening"}
       </Heading>
-      
+
       {hashtags.map((hashtag, index) =>
         hashtag.postCount && index < 3 ? (
-          (<VStack alignItems={"start"} gap={0} key={hashtag.hashtag}>
+          <VStack alignItems={"start"} gap={0} key={hashtag.hashtag}>
             <Text fontSize={"sm"} color={"gray.500"}>
               Trending
             </Text>
-            <Heading as={"h2"} fontSize={"lg"} _hover={{textDecoration: "underline", cursor: "pointer"}} onClick={() => {
-              navigate(`/hashtag/${hashtag.hashtag.substring(1)}`)
-            }}>
+            <Heading
+              as={"h2"}
+              fontSize={"lg"}
+              _hover={{ textDecoration: "underline", cursor: "pointer" }}
+              onClick={() => {
+                navigate(`/hashtag/${hashtag.hashtag.substring(1)}`);
+              }}
+            >
               {hashtag.hashtag}
             </Heading>
             <Text fontSize={"sm"} color={"gray.500"}>
               {hashtag.postCount} Tweets
             </Text>
-          </VStack>)
+          </VStack>
         ) : null
       )}
-      
     </Flex>
   );
 }

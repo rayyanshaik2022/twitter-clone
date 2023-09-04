@@ -1,3 +1,4 @@
+// Chakra UI imports
 import {
   Grid,
   Box,
@@ -8,13 +9,16 @@ import {
   Tab,
 } from "@chakra-ui/react";
 
-import { useFirestore } from "../firebase";
+
+// Firebase imports
 import { getDoc, doc } from "firebase/firestore";
 
+// Hook imports
+import { useFirestore } from "../firebase";
 import { useState, useEffect } from "react";
 import { useUser } from "../hooks/useUser";
 
-// Import components
+// Component imports
 import HomeLeftSidebar from "../components/HomeLeftSidebar";
 import HomeRightSideBar from "../components/HomeRightSidebar";
 import HomeMakeTweet from "../components/HomeMakeTweet";
