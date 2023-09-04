@@ -9,6 +9,7 @@ import {
   Image,
   keyframes,
   useToast,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -68,6 +69,7 @@ function HomePost(props) {
   const navigate = useNavigate();
   const db = useFirestore();
   const toast = useToast();
+  const [isLargerThan420W] = useMediaQuery("(min-width: 420px)");
 
   useEffect(() => {
     const getData = async () => {
@@ -105,10 +107,10 @@ function HomePost(props) {
     isLiked ? setLikes(likes - 1) : setLikes(likes + 1);
 
     if (timeClicked - lastLike < 1200) {
-      console.log("Limited like, user is liking too fast!")
+      console.log("Limited like, user is liking too fast!");
       return;
     }
-    
+
     if (!props.user) {
       return;
     }
@@ -159,6 +161,7 @@ function HomePost(props) {
       borderBottomColor={"gray.300"}
       bg={"whiteAlpha.900"}
       top={0}
+      overflowX={"clip"}
       zIndex={1}
       _hover={{ bg: "gray.50", cursor: "pointer" }}
       onClick={(e) =>
@@ -207,12 +210,14 @@ function HomePost(props) {
               className="no-redirect"
             >
               {props.isNewClient
-                ? "@" + props.authorUsername + " • " + "1 second" + " ago"
+                ? "@" +
+                  props.authorUsername +
+                  (isLargerThan420W ? +" • " + "1 second" + " ago" : "")
                 : "@" +
                   props.authorUsername +
-                  " • " +
-                  timeSince(props.datePosted.toDate()) +
-                  " ago"}
+                  (isLargerThan420W
+                    ? " • " + timeSince(props.datePosted.toDate()) + " ago"
+                    : "")}
             </Heading>
           </HStack>
           <TextContent text={props.textContent} />

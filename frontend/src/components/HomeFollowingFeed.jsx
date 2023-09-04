@@ -27,7 +27,6 @@ function HomeFollowingFeed(props) {
 
       setPosts(newPosts);
     };
-
     myQuery();
   }, []);
 

@@ -59,7 +59,7 @@ function Post() {
   const [user, setUser] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState(0);
-  const [lastLike, setLastLike] = useState(new Date())
+  const [lastLike, setLastLike] = useState(new Date());
   const [pushComment, setPushComment] = useState(null);
   const db = useFirestore();
   const toast = useToast();
@@ -153,7 +153,7 @@ function Post() {
     isLiked ? setLikes(likes - 1) : setLikes(likes + 1);
 
     if (timeClicked - lastLike < 1200) {
-      console.log("Limited like, user is liking too fast!")
+      console.log("Limited like, user is liking too fast!");
       return;
     }
 
@@ -207,7 +207,11 @@ function Post() {
 
   return (
     <>
-      <Grid templateColumns={getGridColumns()} p={0}>
+      <Grid
+        templateColumns={getGridColumns()}
+        p={0}
+        overscrollBehavior={"contain"}
+      >
         {/* TODO Re add prop user={user} */}
         <HomeLeftSidebar user={user} />
         <Box

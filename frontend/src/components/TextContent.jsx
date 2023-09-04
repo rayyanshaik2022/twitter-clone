@@ -1,9 +1,10 @@
-import { Text, Flex, Link } from "@chakra-ui/react";
+import { Text, Flex, Link, useMediaQuery } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function TextContent(props) {
   const navigate = useNavigate();
+  const [isLargerThan420W] = useMediaQuery("(min-width: 420px)");
 
   const splitBoth = (str) => {
     if (!str) {
@@ -24,7 +25,7 @@ function TextContent(props) {
           color={"blue.400"}
           display={"inline"}
           key={text + index}
-          fontSize={18}
+          fontSize={isLargerThan420W ? 18 : 16}
           onClick={() => {
             navigate(`/profile/${text.substring(1)}`);
             window.location.reload();
@@ -41,7 +42,7 @@ function TextContent(props) {
           fontWeight={"500"}
           display={"inline"}
           key={text + index}
-          fontSize={18}
+          fontSize={isLargerThan420W ? 18 : 16}
           onClick={() => {
             navigate(`/hashtag/${text.substring(1)}`);
             window.location.reload();
@@ -55,7 +56,7 @@ function TextContent(props) {
         <Text
           display={"inline"}
           key={text + index}
-          fontSize={18}
+          fontSize={isLargerThan420W ? 18 : 16}
           wordBreak={"break-all"}
         >
           {text}

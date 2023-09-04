@@ -37,11 +37,14 @@ function Signup() {
       });
   };
 
-  const [isLargerThan880] = useMediaQuery('(min-height: 800px)')
+  const [isLargerThan880] = useMediaQuery("(min-height: 800px)");
 
   return (
     <>
-      <Grid gridTemplateColumns={{ base: "1fr", lg: "5.8fr 4.2fr" }}>
+      <Grid
+        gridTemplateColumns={{ base: "1fr", lg: "5.8fr 4.2fr" }}
+        overscrollBehavior={"contain"}
+      >
         <Flex
           w={"100%"}
           h={"100vh"}
@@ -60,7 +63,7 @@ function Signup() {
           align={{ base: "center", lg: "initial" }}
         >
           <Icon as={FaTwitter} boxSize={10} color={"blue.300"} />
-          <Heading as={"h1"} size={{base: "2xl", lg: "3xl"}}>
+          <Heading as={"h1"} size={{ base: "2xl", lg: "3xl" }}>
             Happening Now
           </Heading>
           <Heading as={"h2"}>Join Twitter today</Heading>

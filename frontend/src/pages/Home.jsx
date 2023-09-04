@@ -73,7 +73,7 @@ function Home() {
 
   return (
     <>
-      <Grid templateColumns={getGridColumns()} p={0}>
+      <Grid templateColumns={getGridColumns()} p={0} overscrollBehavior={"contain"}>
         <HomeLeftSidebar user={user} />
         <Box
           w={"100%"}

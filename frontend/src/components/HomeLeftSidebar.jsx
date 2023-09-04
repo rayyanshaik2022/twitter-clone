@@ -89,10 +89,11 @@ function HomeLeftSidebar(props) {
         h={"100vh"}
         pos={"sticky"}
         top={0}
+        bot={"auto"}
         overflowY={"auto"}
         gap={8}
       >
-        <Flex w={"100%"} flexDir={"column"} alignItems={"center"} gap={3}>
+        <Flex w={"100%"} flexDir={"column"} alignItems={"center"} gap={3} pos={"sticky"} top={0}>
           <Flex
             align={"center"}
             justify={"center"}

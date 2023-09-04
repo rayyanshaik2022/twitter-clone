@@ -42,7 +42,7 @@ function Profile() {
   const [isLargerThan1280W] = useMediaQuery("(min-width: 1280px)");
   const [isLargerThan1020W] = useMediaQuery("(min-width: 1020px)");
   const db = useFirestore();
-  
+
   const getGridColumns = () => {
     if (isLargerThan1280W) {
       return "repeat(3, 1fr)";
@@ -95,18 +95,18 @@ function Profile() {
         }
 
         const userData = docSnap.data();
-        setMyUser({...userData, id: docRefUser.id});
+        setMyUser({ ...userData, id: docRefUser.id });
       } catch (e) {
         console.log("ERROR", e);
       }
-    }
+    };
 
     if (!authUser) {
       return;
     }
 
     getData();
-    getAuthData()
+    getAuthData();
   }, [authUser]);
 
   if (!authUser) {
@@ -115,7 +115,11 @@ function Profile() {
 
   return (
     <>
-      <Grid templateColumns={getGridColumns()} p={0}>
+      <Grid
+        templateColumns={getGridColumns()}
+        p={0}
+        overscrollBehavior={"contain"}
+      >
         <HomeLeftSidebar user={user} />
         <Box
           w={"100%"}
@@ -248,7 +252,7 @@ function Profile() {
           </Flex>
           <ProfileFeed user={user} />
         </Box>
-        
+
         {isLargerThan1020W ? (
           <HomeRightSideBar user={myUser} setUser={setUser} />
         ) : null}
