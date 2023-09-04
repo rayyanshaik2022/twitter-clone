@@ -65,6 +65,7 @@ function Profile() {
   const [isLargerThan1280W] = useMediaQuery("(min-width: 1280px)");
   const [isLargerThan1020W] = useMediaQuery("(min-width: 1020px)");
   const [isLargerThan500W] = useMediaQuery("(min-width: 500px)");
+  const [isLargerThan420W] = useMediaQuery("(min-width: 420px)")
   const db = useFirestore();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -73,8 +74,10 @@ function Profile() {
       return "repeat(3, 1fr)";
     } else if (isLargerThan1020W) {
       return "minmax(84px, 1fr) minmax(460px, 1fr) minmax(320px, 3fr)";
-    } else {
+    } else if (isLargerThan420W) {
       return "minmax(84px, 1fr) minmax(320px, 6fr)";
+    } else {
+      return "minmax(64px, 1fr) minmax(320px, 6fr)";
     }
   };
 

@@ -56,6 +56,7 @@ function HomeLeftSidebar(props) {
   const { authUser } = useUser();
   const navigate = useNavigate();
   const [isLargerThan860] = useMediaQuery("(min-height: 860px)");
+  const [isLargerThan420] = useMediaQuery("(min-width: 420px)");
   const [isLargerThan1280W] = useMediaQuery("(min-width: 1280px)");
 
   const smoothScroll = () => {
@@ -87,8 +88,8 @@ function HomeLeftSidebar(props) {
         justifyContent={"space-between"}
         alignItems={"center"}
         ml={"auto"}
-        w={"84px"}
-        px={2}
+        w={isLargerThan420 ? "84px" : "64px"}
+        px={isLargerThan420 ? 2 : 0}
         pt={3}
         pb={1}
         h={"100vh"}
