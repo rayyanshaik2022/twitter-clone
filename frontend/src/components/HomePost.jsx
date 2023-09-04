@@ -221,7 +221,7 @@ function HomePost(props) {
               {props.isNewClient
                 ? "@" +
                   props.authorUsername +
-                  (isLargerThan420W ? +" • " + "1 second" + " ago" : "")
+                  (isLargerThan420W ? + " • 1 second" + " ago" : "")
                 : "@" +
                   props.authorUsername +
                   (isLargerThan420W

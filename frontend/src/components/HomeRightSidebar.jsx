@@ -29,12 +29,6 @@ function HomeRightSideBar(props) {
       pos={"sticky"}
       top={0}
     >
-      {/* <InputGroup >
-        <InputLeftElement pointerEvents="none" mt={"9px"} ml={"5px"}>
-          <BiSearch color="gray.300" size={20} />
-        </InputLeftElement>
-        <Input type="tel" placeholder="Search Twitter" _placeholder={{}} borderRadius={"100px"} h={14} />
-      </InputGroup> */}
       <InputGroup>
         <InputLeftElement
           pointerEvents="none"
