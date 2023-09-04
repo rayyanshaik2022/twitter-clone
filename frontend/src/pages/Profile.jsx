@@ -10,6 +10,22 @@ import {
   Icon,
   Button,
   useMediaQuery,
+  useDisclosure,
+  FormControl,
+  FormLabel,
+  Input,
+  FormHelperText,
+  FormErrorMessage,
+} from "@chakra-ui/react";
+
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
 } from "@chakra-ui/react";
 
 import {
@@ -32,6 +48,8 @@ import HomeRightSideBar from "../components/HomeRightSidebar";
 import ProfileFeed from "../components/ProfileFeed";
 
 import { BiCalendarHeart, BiLocationPlus } from "react-icons/bi";
+import { useMemo } from "react";
+import { getFunctions, httpsCallable } from "firebase/functions";
 
 function Profile() {
   const { authUser } = useUser();
@@ -39,9 +57,16 @@ function Profile() {
   const [user, setUser] = useState(null);
   const [myUser, setMyUser] = useState(null);
 
+  const [profileUsername, setProfileUsername] = useState("");
+  const [profileDisplayName, setProfileDisplayName] = useState("");
+  const [profileLocation, setProfileLocation] = useState("");
+  const [saveProfileIsLoading, setSaveProfileIsLoading] = useState(false);
+
   const [isLargerThan1280W] = useMediaQuery("(min-width: 1280px)");
   const [isLargerThan1020W] = useMediaQuery("(min-width: 1020px)");
+  const [isLargerThan500W] = useMediaQuery("(min-width: 500px)");
   const db = useFirestore();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const getGridColumns = () => {
     if (isLargerThan1280W) {
@@ -50,6 +75,41 @@ function Profile() {
       return "minmax(84px, 1fr) minmax(460px, 1fr) minmax(320px, 3fr)";
     } else {
       return "minmax(84px, 1fr) minmax(320px, 6fr)";
+    }
+  };
+
+  const profileSaveIsDisabled = useMemo(() => {
+    return (
+      user &&
+      profileUsername == user.username &&
+      profileDisplayName == user.displayName &&
+      profileLocation == user.location
+    );
+  }, [profileUsername, profileDisplayName, profileLocation, user]);
+
+  const onClickSaveProfile = async () => {
+    setSaveProfileIsLoading(true);
+    const functions = getFunctions();
+    const updateProfile = httpsCallable(functions, "updateProfile");
+    const result = await updateProfile({
+      username: profileUsername,
+      displayName: profileDisplayName,
+      location: profileLocation,
+    });
+    console.log(result);
+    setSaveProfileIsLoading(false);
+    onClose();
+
+    if (result.data.username) {
+      setUser({ ...user, username: profileUsername });
+    }
+
+    if (result.data.displayName) {
+      setUser({ ...user, displayName: profileDisplayName });
+    }
+
+    if (result.data.location) {
+      setUser({ ...user, location: profileDisplayName });
     }
   };
 
@@ -80,6 +140,10 @@ function Profile() {
 
         const userData = docSnap.data();
         setUser(userData);
+
+        setProfileUsername(userData.username);
+        setProfileDisplayName(userData.displayName);
+        setProfileLocation(userData.location);
       } catch (e) {
         console.log("ERROR", e);
       }
@@ -220,6 +284,7 @@ function Profile() {
                   justifySelf={"start"}
                   borderRadius={"100px"}
                   variant={"outline"}
+                  onClick={onOpen}
                 >
                   Edit Profile
                 </Button>
@@ -229,7 +294,7 @@ function Profile() {
               <Image
                 pos={"absolute"}
                 left={4}
-                top={0}
+                top={isLargerThan500W ? 0 : -14}
                 bottom={0}
                 my={"auto"}
                 boxSize={28}
@@ -257,6 +322,80 @@ function Profile() {
           <HomeRightSideBar user={myUser} setUser={setUser} />
         ) : null}
       </Grid>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader fontWeight={"700"}>Edit Profile</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Flex flexDir={"column"} gap={8}>
+              {user && !user.usernameChange ? (
+                <FormControl variant="floating" id="username-input" isRequired>
+                  <Input
+                    placeholder=" "
+                    value={profileUsername}
+                    onChange={(e) => {
+                      const newValue = e.target.value;
+                      if (/^[a-zA-Z0-9]+$/.test(newValue)) {
+                        setProfileUsername(newValue);
+                      }
+                    }}
+                    maxLength={16}
+                  />
+                  {/* It is important that the Label comes after the Control due to css selectors */}
+                  <FormLabel>Username</FormLabel>
+                  <FormErrorMessage>
+                    Your username must be letters and numbers
+                  </FormErrorMessage>
+                  <Text pl={2} color={"red.400"}>
+                    Your username can only be changed once
+                  </Text>
+                </FormControl>
+              ) : null}
+
+              <FormControl
+                variant="floating"
+                id="display-name-input"
+                isRequired
+              >
+                <Input
+                  placeholder=" "
+                  value={profileDisplayName}
+                  maxLength={20}
+                  pattern={"/^.{1,20}$/"}
+                  onChange={(e) => setProfileDisplayName(e.target.value)}
+                />
+                {/* It is important that the Label comes after the Control due to css selectors */}
+                <FormLabel>Display Name</FormLabel>
+              </FormControl>
+
+              <FormControl variant="floating" id="location-input" isRequired>
+                <Input
+                  placeholder=" "
+                  value={profileLocation}
+                  maxLength={32}
+                  pattern={"/^.{1,32}$/"}
+                  onChange={(e) => setProfileLocation(e.target.value)}
+                />
+                {/* It is important that the Label comes after the Control due to css selectors */}
+                <FormLabel>Location</FormLabel>
+              </FormControl>
+            </Flex>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={onClickSaveProfile}
+              isDisabled={profileSaveIsDisabled}
+              isLoading={saveProfileIsLoading}
+            >
+              Save
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 }

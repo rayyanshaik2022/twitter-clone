@@ -146,7 +146,7 @@ exports.newPost = functions.https.onCall(async (data, context) => {
           .update({
             hashtag: word,
             posts: admin.firestore.FieldValue.arrayUnion(postRef.id),
-            postCount: admin.firestore.FieldValue.increment(1)
+            postCount: admin.firestore.FieldValue.increment(1),
           });
       } else {
         let hashRef = await admin
@@ -156,7 +156,7 @@ exports.newPost = functions.https.onCall(async (data, context) => {
           .set({
             hashtag: word,
             posts: [postRef.id],
-            postCount: 1
+            postCount: 1,
           });
       }
     }
@@ -235,6 +235,116 @@ exports.likePost = functions.https.onCall(async (data, context) => {
       });
     return { likeStatus: -2 };
   }
+});
+
+exports.updateProfile = functions.https.onCall(async (data, context) => {
+  if (!context.auth) {
+    throw new functions.https.HttpsError(
+      "unauthenticated",
+      "Only an authorized user can access this"
+    );
+  }
+
+  const userRef = await admin
+    .firestore()
+    .collection("Users")
+    .doc(context.auth.uid)
+    .get();
+  const userData = userRef.data();
+
+  const username = userData.username;
+  const displayName = userData.displayName;
+  const location = userData.location;
+  const hasChangedUsername = userData.usernameChange;
+  data.username = data.username.toLowerCase();
+  let response = {};
+
+  // data = {
+  //   username: "",
+  //   displayName: "",
+  //   location: "",
+  // }
+
+  // Update user location
+  if (
+    data.location.length <= 32 &&
+    data.location.length >= 1 &&
+    data.location != location
+  ) {
+    const updateUserLocationRef = await admin
+      .firestore()
+      .collection("Users")
+      .doc(context.auth.uid)
+      .update({
+        location: data.location,
+      });
+
+    response.location = true;
+  }
+
+  // Update user display name
+  if (
+    data.displayName.length <= 20 &&
+    data.displayName.length >= 1 &&
+    data.displayName != displayName
+  ) {
+    const updateUserDisplayNameRef = await admin
+      .firestore()
+      .collection("Users")
+      .doc(context.auth.uid)
+      .update({
+        displayName: data.displayName,
+      });
+
+    response.displayName = true;
+  }
+
+  if (
+    !hasChangedUsername &&
+    data.username != username &&
+    data.username.length >= 3 &&
+    data.username.length <= 16 &&
+    /^[a-zA-Z0-9]+$/.test(data.username)
+  ) {
+    // First check if any other user has this username
+    const collectionRef = admin.firestore().collection("Users");
+    const query = collectionRef.where("username", "==", data.username);
+    const snapshot = await query.count().get();
+    if (snapshot.data().count >= 1) {
+      return {
+        invalid: "This username is already in use",
+      };
+    }
+
+    // Update username
+    const updateUserDisplayNameRef = await admin
+      .firestore()
+      .collection("Users")
+      .doc(context.auth.uid)
+      .update({
+        username: data.username,
+        usernameChange: true,
+      });
+
+    // Updating username entails changing all post and comment data as well
+    userData.posts.forEach(async (postId) => {
+      await admin.firestore().collection("Posts").doc(postId).update({
+        authorUsername: data.username,
+      });
+    });
+
+    userData.comments.forEach(async (commentId) => {
+      await admin.firestore().collection("Comments").doc(commentId).update({
+        authorUsername: data.username,
+      });
+    });
+
+    response.username = true;
+  } else {
+    response.invalid = "Invalid input";
+  }
+
+  return response;
 });
 
 exports.followUser = functions.https.onCall(async (data, context) => {

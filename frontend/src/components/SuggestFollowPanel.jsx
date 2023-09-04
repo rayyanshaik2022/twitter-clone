@@ -72,7 +72,7 @@ function SuggestFollowPanel(props) {
         ) : (null))
       }
       {
-        users.length <= 1 ? (<Text size={"sm"}>No suggested users!</Text>) : null
+        users.length < 1 || !users[0].username ? (<Text size={"sm"}>No suggested users!</Text>) : null
       }
     </Flex>
   );
