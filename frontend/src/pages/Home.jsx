@@ -4,10 +4,8 @@ import {
   Heading,
   useMediaQuery,
   Tabs,
-  TabPanel,
   TabList,
   Tab,
-  TabPanels,
 } from "@chakra-ui/react";
 
 import { useFirestore } from "../firebase";
