@@ -5,6 +5,7 @@ import { Flex, Heading, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useFirestore } from "../firebase";
 import { useUser } from "../hooks/useUser";
+import { useMediaQuery } from "@chakra-ui/react";
 
 // Firebase imports
 import {
@@ -23,6 +24,7 @@ function SuggestFollowPanel(props) {
   const [users, setUsers] = useState([]);
   const { authUser } = useUser();
   const db = useFirestore();
+  const [isLargerThan700H] = useMediaQuery("(min-height: 700px)");
 
   useEffect(() => {
     if (!props.user || !authUser) {
@@ -66,7 +68,7 @@ function SuggestFollowPanel(props) {
         Who to follow
       </Heading>
       {users.map((user, index) =>
-        user.username && index < 4 ? (
+        user.username && index < (isLargerThan700H ? 3 : 1) ? (
           <FollowUserCard
             user={user}
             authUser={props.user}
