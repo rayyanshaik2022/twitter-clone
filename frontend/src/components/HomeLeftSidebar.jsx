@@ -78,6 +78,7 @@ function HomeLeftSidebar(props) {
 
   const navigateProfile = () => {
     navigate("/profile");
+    window.location.reload();
   };
 
   // responsive sidebar
