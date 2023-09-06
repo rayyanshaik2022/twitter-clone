@@ -61,6 +61,7 @@ function TrendsPanel() {
               _hover={{ textDecoration: "underline", cursor: "pointer" }}
               onClick={() => {
                 navigate(`/hashtag/${hashtag.hashtag.substring(1)}`);
+                window.location.reload();
               }}
             >
               {hashtag.hashtag}

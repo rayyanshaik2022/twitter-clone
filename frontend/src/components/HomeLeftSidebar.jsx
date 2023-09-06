@@ -243,7 +243,7 @@ function HomeLeftSidebar(props) {
       top={0}
       userSelect={"none"}
     >
-      <Flex flexDir={"column"} gap={12}>
+      <Flex flexDir={"column"} gap={isLargerThan860 ? 12 : 4}>
         <HStack justify={"space-between"}>
           <Icon as={FaTwitter} boxSize={10} color={"blue.400"} />
           <Button
@@ -264,7 +264,7 @@ function HomeLeftSidebar(props) {
             gap={4}
             _hover={{ bg: "gray.50", cursor: "pointer" }}
             p={4}
-            py={isLargerThan860 ? 4 : 3}
+            py={isLargerThan860 ? 4 : 2}
             borderRadius={"100px"}
             onClick={() => navigate("/home")}
           >
