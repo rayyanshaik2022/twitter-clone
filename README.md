@@ -29,7 +29,7 @@ Visually, I tried my best to make the website a 1:1 copy of twitter. Functionall
 #### Misc.
 * Site is deployed on _Cloudflare_ @ [https://twitter-clone-20n.pages.dev/](https://twitter-clone-20n.pages.dev/)
  
-* Individual profile pages + minor profile editing 
+* Individual profile pages + profile editing 
 * Complete like + comment functionality
 * User tagging (@username) and hashtags (#hashtag) functionality
 * Posts & profiles can be visited at custom urls
@@ -41,9 +41,9 @@ Some buttons appear for visual purposes only and may not have a feature behind t
 
 ### Time spent developing
 
-__Time Frame__ : 08/30/2023 to 09/04/2023
+###### Time Frame : 08/30/2023 to 09/04/2023
 
-__Hours Developing__: ~18 hours
+###### Hours Developing: ~18 hours
 
 
 ### Running this project
